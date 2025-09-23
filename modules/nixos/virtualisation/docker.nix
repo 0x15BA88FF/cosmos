@@ -3,7 +3,6 @@
 
   config = lib.mkIf config.systemModules.docker.enable {
     virtualisation.docker.enable = true;
-
     environment.systemPackages = with pkgs; [ docker ];
   };
 }

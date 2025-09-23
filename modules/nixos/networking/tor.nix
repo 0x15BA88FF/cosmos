@@ -3,7 +3,6 @@
 
   config = lib.mkIf config.systemModules.tor.enable {
     services.tor.enable = true;
-
     environment.systemPackages = with pkgs; [ tor ];
   };
 }
