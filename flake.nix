@@ -22,7 +22,7 @@
   outputs = { nixpkgs, disko, agenix, home-manager, nix-colors, ... }@inputs: {
     nixosConfigurations = {
       void = nixpkgs.lib.nixosSystem {
-        specialArgs = inputs;
+        specialArgs = { inherit inputs; };
         system = "x86_64-linux";
         modules = [
           ./hosts/void/configuration.nix

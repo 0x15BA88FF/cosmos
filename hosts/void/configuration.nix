@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ pkgs, lib, config, ... }: {
   imports = [
     # ./disko-configuration.nix
     ./hardware-configuration.nix
@@ -12,11 +12,6 @@
       device = "nodev";
       efiSupport = true;
     };
-    plymouth = {
-      enable = true;
-      theme = lib.mkForce "hexagon_dots";
-      themePackages = with pkgs; [ adi1090x-plymouth-themes ];
-    };
     loader.efi.canTouchEfiVariables = true;
   };
 
@@ -26,8 +21,6 @@
     networkmanager.enable = true;
   };
 
-  hardware.bluetooth.enable = true;
-
   system.autoUpgrade = {
     enable = true;
     allowReboot = true;
@@ -36,7 +29,6 @@
   security.rtkit.enable = true;
 
   services = {
-    dbus.enable = true;
     automatic-timezoned.enable = true;
     displayManager.ly = {
       enable = true;
@@ -51,14 +43,11 @@
 
   services.xserver = {
     enable = true;
-    desktopManager = { xterm.enable = false; };
     windowManager.i3 = {
       enable = true;
-      extraPackages = with pkgs; [ dmenu i3status i3lock i3blocks ];
+      extraPackages = [ ];
     };
   };
-  services.xserver.windowManager.i3.package = pkgs.i3-gaps;
-  programs.dconf.enable = true;
 
   programs.sway = {
     enable = true;
@@ -86,7 +75,6 @@
     rofi
     swappy
     clipcat
-    blueman
     matugen
     rofimoji
     tesseract4
@@ -113,6 +101,12 @@
     alacritty
     home-manager
   ];
+
+  environment.etc."style-colors.txt".source = pkgs.writeText "style-colors" ''
+    ${lib.concatStringsSep "\n"
+    (lib.mapAttrsToList (name: val: "${name} = ${val}")
+      config.style.colors.palette)}
+  '';
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
