@@ -1,0 +1,133 @@
+# --- Startups
+
+exec --no-startup-id swaync &
+exec --no-startup-id nm-applet &
+exec --no-startup-id swww-daemon -f xrgb &
+exec --no-startup-id clipcatd --no-daemon &
+# exec --no-startup-id wallpaper play &
+# exec --no-startup-id battutil watch &
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- wmctl lock &
+
+# --- Appearance
+
+gaps inner 8
+gaps outer 0
+
+for_window [class="^.*"] border pixel 0
+for_window [app_id=".*"] opacity 0.8
+for_window [class=".*"] opacity 0.8
+
+blur enable
+blur_xray enable
+
+blur_passes 3
+blur_radius 5
+corner_radius 12
+smart_corner_radius enable
+
+# --- Keybinds
+
+set $super Mod4
+set $submod Mod1
+
+floating_modifier $super
+
+set $terminal alacritty
+set $browser qutebrowser
+
+bindsym $super+q kill
+bindsym $super+Shift+r reload
+bindsym $super+Delete exec sway exit
+bindsym $super+Escape exec loginctl lock-session
+
+bindsym $super+Control+c move position center
+bindsym $super+Control+f floating toggle, move position center
+bindsym $super+Control+t floating enable, move position center
+
+bindsym F11 fullscreen toggle
+bindsym $super+Control+Return fullscreen toggle
+
+bindsym Print exec wmmenu capture
+bindsym $super+Print exec wmmenu capture
+bindsym $super+M exec wmmenu mode
+bindsym $super+R exec wmmenu tool
+bindsym $super+V exec wmmenu clipboard
+bindsym $super+period exec wmmenu emoji
+bindsym $super+space exec wmmenu launcher
+bindsym Control+Escape exec wmbar toggle
+bindsym $super+n exec wmnotifications toggle
+
+bindsym $super+b exec $browser
+bindsym $super+Return exec $terminal
+
+bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioPlay exec playerctl play
+bindsym XF86AudioPause exec playerctl pause
+bindsym XF86AudioMedia exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+
+bindsym XF86Sleep exec systemctl suspend
+
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym Shift+XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym Shift+XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+
+bindsym Shift+XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-
+
+bindsym XF86MonBrightnessUp exec brightnessctl s 10%+
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+
+bindsym $submod+Tab focus mode_toggle
+
+bindsym $super+Tab workspace next
+bindsym $super+Shift+Tab workspace prev
+
+bindsym $super+k focus up
+bindsym $super+j focus down
+bindsym $super+h focus left
+bindsym $super+l focus right
+
+bindsym $super+Control+k move up
+bindsym $super+Control+j move down
+bindsym $super+Control+h move left
+bindsym $super+Control+l move right
+
+bindsym $super+Control+Shift+h resize grow width 10 px or 10 ppt
+bindsym $super+Control+Shift+j resize shrink height 10 px or 10 ppt
+bindsym $super+Control+Shift+k resize grow height 10 px or 10 ppt
+bindsym $super+Control+Shift+l resize shrink width 10 px or 10 ppt
+
+bindsym $super+Control+v split v
+bindsym $submod+Control+h split h
+
+bindsym $submod+d focus child
+bindsym $submod+a focus parent
+bindsym $submod+t layout tabbed
+bindsym $submod+s layout stacking
+bindsym $submod+slash layout toggle split
+
+bindsym $super+1 workspace number "1"
+bindsym $super+2 workspace number "2"
+bindsym $super+3 workspace number "3"
+bindsym $super+4 workspace number "4"
+bindsym $super+5 workspace number "5"
+bindsym $super+6 workspace number "6"
+bindsym $super+7 workspace number "7"
+bindsym $super+8 workspace number "8"
+bindsym $super+9 workspace number "9"
+bindsym $super+0 workspace number "10"
+
+bindsym $super+Shift+1 move container to workspace number "1"
+bindsym $super+Shift+2 move container to workspace number "2"
+bindsym $super+Shift+3 move container to workspace number "3"
+bindsym $super+Shift+4 move container to workspace number "4"
+bindsym $super+Shift+5 move container to workspace number "5"
+bindsym $super+Shift+6 move container to workspace number "6"
+bindsym $super+Shift+7 move container to workspace number "7"
+bindsym $super+Shift+8 move container to workspace number "8"
+bindsym $super+Shift+9 move container to workspace number "9"
+bindsym $super+Shift+0 move container to workspace number "10"
