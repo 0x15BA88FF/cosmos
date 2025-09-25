@@ -1,27 +1,27 @@
-{ pkgs, ... }: {
+{ pkgs, lib, config, hostname, ... }: {
   imports = [
     ./hardware-configuration.nix
     ./../../users/default.nix
     ./../../modules/nixos/default.nix
   ];
 
-  boot = {
-    loader.grub = {
+  system = {
+    autoUpgrade = {
       enable = true;
-      device = "nodev";
-      efiSupport = true;
-      configurationLimit = 3;
+      allowReboot = true;
     };
-    loader.efi.canTouchEfiVariables = true;
+    stateVersion = "25.05";
   };
 
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  boot.loader.efi.canTouchEfiVariables = true;
+
   networking = {
-    hostName = "void";
+    hostName = hostname;
     firewall.enable = true;
     networkmanager.enable = true;
   };
-
-  security.rtkit.enable = true;
 
   services = {
     automatic-timezoned.enable = true;
@@ -36,41 +36,28 @@
     };
   };
 
-  programs.sway = {
-    enable = true;
-    package = pkgs.swayfx;
-    wrapperFeatures.gtk = true;
-    extraPackages = with pkgs; [ swayidle swaylock ];
-  };
+  security.rtkit.enable = true;
 
-  xdg.portal = {
-    enable = true;
-    wlr.enable = true;
-    xdgOpenUsePortal = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal
-      xdg-desktop-portal-wlr
-      xdg-desktop-portal-gtk
-    ];
+  programs = {
+    sway = {
+      enable = true;
+      package = pkgs.swayfx;
+      wrapperFeatures.gtk = true;
+      extraPackages = with pkgs; [ swayidle swaylock ];
+    };
   };
 
   environment.systemPackages = with pkgs; [
-    xdg-desktop-portal
-    xdg-desktop-portal-wlr
-    xdg-desktop-portal-gtk
-
     rofi
     swappy
     clipcat
     matugen
     rofimoji
+    nautilus
     tesseract4
-    quickshell
     pavucontrol
     brightnessctl
     networkmanagerapplet
-
-    pcmanfm
 
     imv
     wtype
@@ -86,16 +73,8 @@
     curl
     neovim
     alacritty
-    home-manager
   ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  system = {
-    autoUpgrade = {
-      enable = true;
-      allowReboot = true;
-    };
-    stateVersion = "25.05";
-  };
+  fonts.packages = map (font: font.package) (lib.attrValues
+    (lib.filterAttrs (_name: font: font.package != null) config.style.fonts));
 }

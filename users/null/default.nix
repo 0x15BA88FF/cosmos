@@ -1,5 +1,7 @@
 { pkgs, lib, config, ... }:
-let username = "null";
+let
+  username = "null";
+  homeDirectory = "/home/${username}";
 in
 {
   options.user.${username}.enable =
@@ -8,17 +10,32 @@ in
   config = lib.mkIf config.user.${username}.enable {
     nixpkgs.config.allowUnfree = true;
 
+    environment.systemPackages = [ pkgs.home-manager ];
+
+    home-manager = {
+      backupFileExtension = "bak";
+      extraSpecialArgs.style = config.style;
+      users.${username} = {
+        imports = [ ./../../modules/home/default.nix ];
+
+        home.username = username;
+        home.stateVersion = "25.05";
+        home.homeDirectory = homeDirectory;
+        programs.home-manager.enable = true;
+      };
+    };
+
     programs.zsh.enable = true;
 
-    xdg.portal = {
-      enable = true;
-      wlr.enable = true;
-      xdgOpenUsePortal = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-wlr
-      ];
+    systemd.user.services.kanata = {
+      description = "Kanata keyboard remapper";
+      serviceConfig = {
+        Type = "simple";
+        Restart = "on-failure";
+        ExecStart =
+          "${pkgs.kanata}/bin/kanata --cfg ${homeDirectory}/.config/kanata/kanata.kbd";
+      };
+      wantedBy = [ "default.target" ];
     };
 
     users.users.${username} = {
@@ -27,10 +44,6 @@ in
       extraGroups = [ "wheel" "docker" "input" "uinput" ];
 
       packages = with pkgs; [
-        xdg-desktop-portal
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-
         jq
         fd
         rbw
@@ -77,17 +90,6 @@ in
         qutebrowser
         mpvScripts.mpris
       ];
-    };
-
-    systemd.user.services.kanata = {
-      description = "Kanata keyboard remapper";
-      serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-        ExecStart =
-          "${pkgs.kanata}/bin/kanata --cfg /home/${username}/.config/kanata/kanata.kbd";
-      };
-      wantedBy = [ "default.target" ];
     };
   };
 }

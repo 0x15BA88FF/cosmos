@@ -1,39 +1,33 @@
-{ pkgs, lib, config, inputs, ... }:
-
+{ pkgs, lib, inputs, config, ... }:
+let cfg = config.style;
+in
 {
   options.style = {
-    enable = lib.mkEnableOption "Global style library";
-
+    enable = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Enable global style library";
+    };
     image = lib.mkOption {
       type = lib.types.str;
       default = "";
-      description = "Background image path or URL.";
+      description = "Background image";
     };
-
     colors = lib.mkOption {
       type = lib.types.attrs;
-      default = inputs.nix-colors.colorSchemes.dracula;
-      description = "Color scheme.";
+      default = inputs.nix-colors.colorSchemes.gruvbox-light-hard;
+      description = "Color scheme";
     };
-
-    variant = lib.mkOption {
-      type = lib.types.enum [ "light" "dark" ];
-      default = "dark";
-      description = "Light or dark variant.";
-    };
-
     opacity = lib.mkOption {
       type = lib.types.float;
-      default = 1.0;
-      description = "Opacity between 0.0 and 1.0.";
+      default = 9.0;
+      description = "Opacity between 0.0 and 1.0";
     };
-
     border = lib.mkOption {
       type = lib.types.int;
       default = 1;
-      description = "Base border width in px.";
+      description = "Base border width in px";
     };
-
     rounded = lib.mkOption {
       type = lib.types.attrsOf lib.types.int;
       default = {
@@ -42,14 +36,25 @@
         lg = 8;
         xl = 12;
       };
-      description = "Border radii.";
+      description = "Border radii";
     };
-
+    fontSizes = lib.mkOption {
+      type = lib.types.attrsOf lib.types.int;
+      default = {
+        xs = 10;
+        sm = 11;
+        base = 12;
+        md = 14;
+        lg = 16;
+        xl = 18;
+      };
+      description = "Font size variants";
+    };
     fonts = lib.mkOption {
       type = lib.types.attrsOf (lib.types.submodule {
         options = {
-          package = lib.mkOption { type = lib.types.package; };
-          name = lib.mkOption { type = lib.types.str; };
+          package = lib.mkOption { type = lib.types.nullOr lib.types.package; };
+          name = lib.mkOption { type = lib.types.nullOr lib.types.str; };
         };
       });
       default = {
@@ -66,9 +71,7 @@
           name = "JetBrainsMono Nerd Font";
         };
         proportional = {
-          package = pkgs.nerd-fonts.jetbrains-mono.override {
-            variant = "proportional";
-          };
+          package = pkgs.nerd-fonts.jetbrains-mono;
           name = "JetBrainsMono Nerd Font Propo";
         };
         emoji = {
@@ -87,13 +90,30 @@
           package = pkgs.noto-fonts-extra;
           name = "Noto Symbols";
         };
+        console = {
+          package = null;
+          name = null;
+        };
       };
       description = "Font families and their packages.";
     };
   };
 
-  config = lib.mkIf config.style.enable {
-    fonts.packages =
-      lib.attrValues (lib.mapAttrs (_: v: v.package) config.style.fonts);
+  config = lib.mkIf cfg.enable {
+    _module.args.styleLib = {
+      hexToRgb = hex:
+        let
+          cleanHex = lib.removePrefix "#" hex;
+          paddedHex =
+            if builtins.stringLength cleanHex < 6 then
+              lib.strings.fixedWidthString 6 "0" cleanHex
+            else
+              cleanHex;
+          r = (lib.fromHexString (builtins.substring 0 2 paddedHex)) / 255.0;
+          g = (lib.fromHexString (builtins.substring 2 2 paddedHex)) / 255.0;
+          b = (lib.fromHexString (builtins.substring 4 2 paddedHex)) / 255.0;
+        in
+        { inherit r g b; };
+    };
   };
 }
