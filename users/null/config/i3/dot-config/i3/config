@@ -1,21 +1,18 @@
-# --- Startups
-
 exec --no-startup-id swaync &
 exec --no-startup-id nm-applet &
+# exec --no-startup-id wallpaper play &
+# exec --no-startup-id xss-lock --transfer-sleep-lock -- wmctl lock &
 exec --no-startup-id swww-daemon -f xrgb &
 exec --no-startup-id clipcatd --no-daemon &
-# exec --no-startup-id wallpaper play &
-# exec --no-startup-id battutil watch &
-# exec --no-startup-id xss-lock --transfer-sleep-lock -- wmctl lock &
 
 # --- Appearance
 
 gaps inner 8
 gaps outer 0
 
-for_window [class="^.*"] border pixel 0
-for_window [app_id=".*"] opacity 0.8
 for_window [class=".*"] opacity 0.8
+for_window [app_id=".*"] opacity 0.8
+for_window [class="^.*"] border pixel 0
 
 blur enable
 blur_xray enable

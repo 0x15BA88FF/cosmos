@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, styleLib, ... }:
 let
   username = "null";
   homeDirectory = "/home/${username}";
@@ -14,7 +14,10 @@ in
 
     home-manager = {
       backupFileExtension = "bak";
-      extraSpecialArgs.style = config.style;
+      extraSpecialArgs = {
+        inherit styleLib;
+        style = config.style;
+      };
       users.${username} = {
         imports = [ ./../../modules/home/default.nix ];
 

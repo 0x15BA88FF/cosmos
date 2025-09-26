@@ -1,10 +1,7 @@
 { pkgs, config, lib, styleLib, ... }:
 let
-  toPlymouthColors = rgb:
-    "${toString rgb.r}, ${toString rgb.g}, ${toString rgb.b}";
-
-  backgroundColor =
-    toPlymouthColors (styleLib.hexToRgb config.style.colors.palette.base00);
+  palette = config.style.colors.palette;
+  backgroundColor = styleLib.colorToRgbString palette.base00;
 
   consmic-splashPlymouthTheme = pkgs.stdenv.mkDerivation {
     version = "1.0";

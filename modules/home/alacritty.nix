@@ -1,4 +1,9 @@
-{ style, ... }: {
+{ style, styleLib, ... }:
+let
+  palette = style.colors.palette;
+  fonts = style.fonts;
+in
+{
   programs.alacritty = {
     enable = true;
     settings = {
@@ -9,102 +14,102 @@
       font = {
         size = 11;
         normal = {
-          family = style.fonts.monospace.name;
+          family = fonts.monospace.name;
           style = "Bold";
         };
         bold = {
-          family = style.fonts.monospace.name;
+          family = fonts.monospace.name;
           style = "ExtraBold";
         };
         italic = {
-          family = style.fonts.monospace.name;
+          family = fonts.monospace.name;
           style = "Bold Italic";
         };
         bold_italic = {
-          family = style.fonts.monospace.name;
+          family = fonts.monospace.name;
           style = "ExtraBold Italic";
         };
       };
 
       colors = {
         primary = {
-          background = "#${style.colors.palette.base00}";
-          foreground = "#${style.colors.palette.base05}";
+          background = styleLib.colorToHexString palette.base00;
+          foreground = styleLib.colorToHexString palette.base05;
         };
 
         cursor = {
-          text = "#${style.colors.palette.base05}";
-          cursor = "#${style.colors.palette.base03}";
+          text = styleLib.colorToHexString palette.base05;
+          cursor = styleLib.colorToHexString palette.base03;
         };
 
         vi_mode_cursor = {
-          text = "#${style.colors.palette.base05}";
-          cursor = "#${style.colors.palette.base0B}";
+          text = styleLib.colorToHexString palette.base05;
+          cursor = styleLib.colorToHexString palette.base0B;
         };
 
         search = {
           matches = {
-            foreground = "#${style.colors.palette.base03}";
-            background = "#${style.colors.palette.base0E}";
+            foreground = styleLib.colorToHexString palette.base03;
+            background = styleLib.colorToHexString palette.base0E;
           };
           focused_match = {
-            foreground = "#${style.colors.palette.base03}";
-            background = "#${style.colors.palette.base0B}";
+            foreground = styleLib.colorToHexString palette.base03;
+            background = styleLib.colorToHexString palette.base0B;
           };
         };
 
         footer_bar = {
-          foreground = "#${style.colors.palette.base03}";
-          background = "#${style.colors.palette.base05}";
+          foreground = styleLib.colorToHexString palette.base03;
+          background = styleLib.colorToHexString palette.base05;
         };
 
         hints = {
           start = {
-            foreground = "#${style.colors.palette.base03}";
-            background = "#${style.colors.palette.base0E}";
+            foreground = styleLib.colorToHexString palette.base03;
+            background = styleLib.colorToHexString palette.base0E;
           };
           end = {
-            foreground = "#${style.colors.palette.base03}";
-            background = "#${style.colors.palette.base0E}";
+            foreground = styleLib.colorToHexString palette.base03;
+            background = styleLib.colorToHexString palette.base0E;
           };
         };
 
         selection = {
-          text = "#${style.colors.palette.base00}";
-          background = "#${style.colors.palette.base0B}";
+          text = styleLib.colorToHexString palette.base00;
+          background = styleLib.colorToHexString palette.base0B;
         };
 
         normal = {
-          black = "#${style.colors.palette.base00}";
-          red = "#${style.colors.palette.base08}";
-          green = "#${style.colors.palette.base0B}";
-          yellow = "#${style.colors.palette.base0A}";
-          blue = "#${style.colors.palette.base0D}";
-          magenta = "#${style.colors.palette.base0E}";
-          cyan = "#${style.colors.palette.base0C}";
-          white = "#${style.colors.palette.base05}";
+          black = styleLib.colorToHexString palette.base00;
+          red = styleLib.colorToHexString palette.base08;
+          green = styleLib.colorToHexString palette.base0B;
+          yellow = styleLib.colorToHexString palette.base0A;
+          blue = styleLib.colorToHexString palette.base0D;
+          magenta = styleLib.colorToHexString palette.base0E;
+          cyan = styleLib.colorToHexString palette.base0C;
+          white = styleLib.colorToHexString palette.base05;
         };
 
         bright = {
-          black = "#${style.colors.palette.base00}";
-          red = "#${style.colors.palette.base08}";
-          green = "#${style.colors.palette.base0B}";
-          yellow = "#${style.colors.palette.base0A}";
-          blue = "#${style.colors.palette.base0D}";
-          magenta = "#${style.colors.palette.base0E}";
-          cyan = "#${style.colors.palette.base0C}";
-          white = "#${style.colors.palette.base07}";
+          black = styleLib.colorToHexString palette.base00;
+          red = styleLib.colorToHexString palette.base08;
+          green = styleLib.colorToHexString palette.base0B;
+          yellow = styleLib.colorToHexString palette.base0A;
+          blue = styleLib.colorToHexString palette.base0D;
+          magenta = styleLib.colorToHexString palette.base0E;
+          cyan = styleLib.colorToHexString palette.base0C;
+          white = styleLib.colorToHexString palette.base07;
         };
 
         dim = {
-          black = "#${style.colors.palette.base00}";
-          red = "#${style.colors.palette.base08}";
-          green = "#${style.colors.palette.base0B}";
-          yellow = "#${style.colors.palette.base0A}";
-          blue = "#${style.colors.palette.base0D}";
-          magenta = "#${style.colors.palette.base0E}";
-          cyan = "#${style.colors.palette.base0C}";
-          white = "#${style.colors.palette.base03}";
+          black = styleLib.colorToHexString palette.base00;
+          red = styleLib.colorToHexString palette.base08;
+          green = styleLib.colorToHexString palette.base0B;
+          yellow = styleLib.colorToHexString palette.base0A;
+          blue = styleLib.colorToHexString palette.base0D;
+          magenta = styleLib.colorToHexString palette.base0E;
+          cyan = styleLib.colorToHexString palette.base0C;
+          white = styleLib.colorToHexString palette.base03;
         };
       };
     };

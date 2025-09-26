@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-
-paths() { echo -e ${PATH//:/\\n}; }

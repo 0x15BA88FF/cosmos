@@ -1,8 +1,13 @@
-{ lib, config, ... }: {
+{ lib, config, ... }:
+let
+  palette = config.style.colors.palette;
+  fonts = config.style.fonts;
+in
+{
   config = lib.mkIf config.style.enable {
     console = {
-      font = config.style.fonts.console.name;
-      colors = with config.style.colors.palette; [
+      font = fonts.console.name;
+      colors = with palette; [
         base00
         base08
         base0B

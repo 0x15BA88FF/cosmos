@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, styleLib, ... }:
 let
   palette = config.style.colors.palette;
   fontName = config.style.fonts.sansSerif.name;
@@ -22,7 +22,7 @@ let
   themeConfig = pkgs.writeText "theme.txt" ''
     desktop-image: "background.png"
     desktop-image-scale-method: "crop"
-    desktop-color: "#${palette.base00}"
+    desktop-color: "${styleLib.colorToHexString palette.base00}"
 
     terminal-font: "mono"
     terminal-left: "0"
@@ -36,8 +36,8 @@ let
       width = 50%
       height = 40%
       item_font = "mono"
-      item_color = "#${palette.base05}"
-      selected_item_color = "#${palette.base00}"
+      item_color = "${styleLib.colorToHexString palette.base05}"
+      selected_item_color = "${styleLib.colorToHexString palette.base00}"
       item_height = 30
       item_padding = 10
       item_spacing = 2
@@ -54,10 +54,10 @@ let
       width = 50%
       height = 20
       font = "mono"
-      text_color = "#${palette.base05}"
-      fg_color = "#${palette.base0D}"
-      bg_color = "#${palette.base02}"
-      border_color = "#${palette.base03}"
+      text_color = "${styleLib.colorToHexString palette.base05}"
+      fg_color = "${styleLib.colorToHexString palette.base0D}"
+      bg_color = "${styleLib.colorToHexString palette.base02}"
+      border_color = "${styleLib.colorToHexString palette.base03}"
     }
 
     + label {
@@ -69,7 +69,7 @@ let
       height = 20
       align = "center"
       font = "mono"
-      color = "#${palette.base05}"
+      color = "${styleLib.colorToHexString palette.base05}"
     }
   '';
 
@@ -79,11 +79,14 @@ let
       cp ${grubFont}/mono.pf2 $out/
       cp ${themeConfig} $out/theme.txt
 
-      magick -size 1920x1080 "xc:#${palette.base00}" -depth 8 PNG8:$out/background.png
+      magick -size 1920x1080 "xc:${
+        styleLib.colorToHexString palette.base00
+      }" -depth 8 PNG8:$out/background.png
 
       ${lib.concatStringsSep "\n" (map (suffix:
         "cp ${
-          mkPng "#${palette.base0D}" "selected_${suffix}"
+          mkPng "${styleLib.colorToHexString palette.base0D}"
+          "selected_${suffix}"
         } $out/selected_${suffix}.png") [
           "c"
           "n"
@@ -98,7 +101,7 @@ let
 
       ${lib.concatStringsSep "\n" (map (suffix:
         "cp ${
-          mkPng "#${palette.base03}" "slider_${suffix}"
+          mkPng "${styleLib.colorToHexString palette.base03}" "slider_${suffix}"
         } $out/slider_${suffix}.png") [
           "c"
           "n"
@@ -118,7 +121,7 @@ in
     efiSupport = true;
     device = "nodev";
     theme = cosmic-grub;
-    backgroundColor = "#${palette.base00}";
-    splashImage = mkPng "#${palette.base00}" "splash";
+    backgroundColor = "${styleLib.colorToHexString palette.base00}";
+    splashImage = mkPng "${styleLib.colorToHexString palette.base00}" "splash";
   };
 }

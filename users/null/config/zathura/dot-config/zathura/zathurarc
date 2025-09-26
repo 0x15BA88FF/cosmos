@@ -1,4 +1,0 @@
-include colors
-
-set recolor true
-set selection-clipboard clipboard

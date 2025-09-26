@@ -100,10 +100,10 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    _module.args.styleLib = {
-      hexToRgb = hex:
+    _module.args.styleLib = rec {
+      colorToAttrSet = color:
         let
-          cleanHex = lib.removePrefix "#" hex;
+          cleanHex = lib.removePrefix "#" color;
           paddedHex =
             if builtins.stringLength cleanHex < 6 then
               lib.strings.fixedWidthString 6 "0" cleanHex
@@ -114,6 +114,10 @@ in
           b = (lib.fromHexString (builtins.substring 4 2 paddedHex)) / 255.0;
         in
         { inherit r g b; };
+      colorToHexString = color: "#${color}";
+      colorToRgbString = color:
+        let attr = colorToAttrSet color;
+        in "${toString attr.r}, ${toString attr.g}, ${toString attr.b}";
     };
   };
 }

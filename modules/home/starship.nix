@@ -1,4 +1,4 @@
-{
+{ ... }: {
   programs.starship = {
     enable = true;
 
@@ -6,7 +6,7 @@
       add_newline = true;
 
       format =
-        "[ ](fg:bright-cyan)$username[@](bg:bright-cyan fg:black)$hostname[](fg:bright-cyan) [](fg:bright-blue)$directory[](fg:bright-blue)$nix_shell$character";
+        "[ ](fg:bright-cyan)$username[@](bg:bright-cyan fg:black)$hostname[](fg:bright-cyan) [](fg:bright-blue)$directory[](fg:bright-blue) $nix_shell$character";
       right_format =
         "$git_branch$git_status$deno$cmake$direnv$docker_context$c$lua$rust$golang$nodejs$python [](fg:green)$cmd_duration[](fg:green)";
 
