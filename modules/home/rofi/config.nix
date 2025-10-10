@@ -1,19 +1,14 @@
-{ style, styleLib, ... }:
+{ nix-styles, ... }:
 let
-  palette = style.colors.palette;
-  fontSizes = style.fontSizes;
-  rounded = style.rounded;
-  fonts = style.fonts;
+  palette = nix-styles.colors.palette;
+  fontSizes = nix-styles.fontSizes;
+  rounded = nix-styles.rounded;
+  fonts = nix-styles.fonts;
 in
 ''
   configuration {
+      modi: [ drun ];
       show-icons: true;
-      display-run: "RUN";
-      display-drun: "APP";
-      display-combi: "ALL";
-      display-window: "WINDOW";
-      drun-display-format: "{name}";
-      modi: [ combi, drun, run, window ];
       font: "${fonts.monospace.name} ${toString fontSizes.base}";
   }
 
@@ -22,7 +17,7 @@ in
       width: 400px;
       height: 520px;
       border-radius: ${toString rounded.xl}px;
-      background-color: ${styleLib.colorToHexString palette.base00};
+      background-color: ${nix-styles.colorToHexString palette.base00};
   }
 
   mainbox {
@@ -39,8 +34,8 @@ in
       padding: 15px;
       children: [ textbox-prompt, entry ];
       border-radius: ${toString rounded.lg}px;
-      text-color: ${styleLib.colorToHexString palette.base00};
-      background-color: ${styleLib.colorToHexString palette.base0D};
+      text-color: ${nix-styles.colorToHexString palette.base00};
+      background-color: ${nix-styles.colorToHexString palette.base0D};
   }
 
   textbox-prompt {
@@ -65,8 +60,8 @@ in
       spacing: 8px;
       padding: 5px;
       border-radius: ${toString rounded.lg}px;
-      text-color: ${styleLib.colorToHexString palette.base05};
-      background-color: ${styleLib.colorToHexString palette.base02};
+      text-color: ${nix-styles.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base02};
   }
 
   listbox {
@@ -81,19 +76,19 @@ in
       cursor: pointer;
       text-color: inherit;
       border-radius: ${toString rounded.md}px;
-      background-color: ${styleLib.colorToHexString palette.base00};
+      background-color: ${nix-styles.colorToHexString palette.base00};
   }
 
   button selected {
-      text-color: ${styleLib.colorToHexString palette.base00};
-      background-color: ${styleLib.colorToHexString palette.base0D};
+      text-color: ${nix-styles.colorToHexString palette.base00};
+      background-color: ${nix-styles.colorToHexString palette.base0D};
   }
 
   listview {
       lines: 7;
       enabled: true;
       background-color: transparent;
-      text-color: ${styleLib.colorToHexString palette.base05};
+      text-color: ${nix-styles.colorToHexString palette.base05};
   }
 
   element {
@@ -103,7 +98,7 @@ in
       cursor: pointer;
       background-color: transparent;
       border-radius: ${toString rounded.lg}px;
-      text-color: ${styleLib.colorToHexString palette.base05};
+      text-color: ${nix-styles.colorToHexString palette.base05};
   }
 
   element normal.normal {
@@ -112,28 +107,28 @@ in
   }
 
   element normal.urgent {
-      text-color: ${styleLib.colorToHexString palette.base05};
-      background-color: ${styleLib.colorToHexString palette.base08};
+      text-color: ${nix-styles.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base08};
   }
 
   element normal.active {
-      text-color: ${styleLib.colorToHexString palette.base05};
-      background-color: ${styleLib.colorToHexString palette.base0B};
+      text-color: ${nix-styles.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base0B};
   }
 
   element selected.normal {
-      text-color: ${styleLib.colorToHexString palette.base05};
-      background-color: ${styleLib.colorToHexString palette.base0B};
+      text-color: ${nix-styles.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base0B};
   }
 
   element selected.urgent {
-      background-color: ${styleLib.colorToHexString palette.base08};
-      text-color: ${styleLib.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base08};
+      text-color: ${nix-styles.colorToHexString palette.base05};
   }
 
   element selected.active {
-      text-color: ${styleLib.colorToHexString palette.base05};
-      background-color: ${styleLib.colorToHexString palette.base08};
+      text-color: ${nix-styles.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base08};
   }
 
   element-icon {
@@ -152,14 +147,14 @@ in
   }
 
   message {
-      background-color: ${styleLib.colorToHexString palette.base02};
+      background-color: ${nix-styles.colorToHexString palette.base02};
   }
 
   error-message {
       padding: 15px;
       border-radius: ${toString rounded.xl}px;
-      text-color: ${styleLib.colorToHexString palette.base05};
-      background-color: ${styleLib.colorToHexString palette.base00};
+      text-color: ${nix-styles.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base00};
   }
 
   textbox {
@@ -167,7 +162,7 @@ in
       vertical-align: 0.5;
       horizontal-align: 0.0;
       border-radius: ${toString rounded.md}px;
-      text-color: ${styleLib.colorToHexString palette.base05};
-      background-color: ${styleLib.colorToHexString palette.base02};
+      text-color: ${nix-styles.colorToHexString palette.base05};
+      background-color: ${nix-styles.colorToHexString palette.base02};
   }
 ''

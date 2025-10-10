@@ -5,36 +5,58 @@
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     disko = {
-      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-colors.url = "github:misterio77/nix-colors";
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stylix = {
+      url = "github:nix-community/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { nixpkgs, disko, agenix, home-manager, nix-colors, ... }@inputs: {
-    nixosConfigurations = {
-      void = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          inherit inputs;
-          hostname = "void";
+  outputs =
+    { nixpkgs, disko, agenix, home-manager, nixvim, stylix, ... }@inputs:
+    let
+      system = "x86_64-linux";
+      overlays = import ./overlays/default.nix;
+    in
+    {
+      nixosConfigurations = {
+        stellar = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            disko.nixosModules.disko
+            agenix.nixosModules.default
+            ./hosts/stellar/configuration.nix
+          ];
         };
-        system = "x86_64-linux";
-        modules = [
-          ./lib/style.nix
-          disko.nixosModules.disko
-          agenix.nixosModules.default
-          ./hosts/void/configuration.nix
-          home-manager.nixosModules.home-manager
-        ];
+      };
+
+      homeConfigurations = {
+        "null" = home-manager.lib.homeManagerConfiguration {
+          pkgs = import nixpkgs {
+            inherit system overlays;
+            config.allowUnfree = true;
+          };
+          extraSpecialArgs = { inherit inputs; };
+          modules = [
+            nixvim.homeModules.nixvim
+            stylix.homeModules.stylix
+            ./users/null/home-configurations.nix
+          ];
+        };
       };
     };
-  };
 }

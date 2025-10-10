@@ -1,9 +1,9 @@
-{ style, styleLib, ... }:
+{ nix-styles, ... }:
 let
-  fonts = style.fonts;
-  rounded = style.rounded;
-  fontSizes = style.fontSizes;
-  palette = style.colors.palette;
+  fonts = nix-styles.fonts;
+  rounded = nix-styles.rounded;
+  fontSizes = nix-styles.fontSizes;
+  palette = nix-styles.colors.palette;
 in
 ''
   configuration {
@@ -17,7 +17,7 @@ in
     width: 280px;
     height: 420px;
     border-radius: ${toString rounded.xl}px;
-    background-color: ${styleLib.colorToHexString palette.base00};
+    background-color: ${nix-styles.colorToHexString palette.base00};
   }
 
   mainbox {
@@ -31,27 +31,27 @@ in
     enabled: true;
     children: [ entry ];
     padding: 8px 8px 0px 8px;
-    background-color: ${styleLib.colorToHexString palette.base00};
+    background-color: ${nix-styles.colorToHexString palette.base00};
   }
 
   entry {
     enabled: true;
     padding: 15px;
     border-radius: ${toString rounded.lg}px;
-    text-color: ${styleLib.colorToHexString palette.base00};
-    background-color: ${styleLib.colorToHexString palette.base0D};
+    text-color: ${nix-styles.colorToHexString palette.base00};
+    background-color: ${nix-styles.colorToHexString palette.base0D};
   }
 
   listbox {
     children: [ listview ];
     padding: 0px 8px 8px 8px;
-    background-color: ${styleLib.colorToHexString palette.base00};
+    background-color: ${nix-styles.colorToHexString palette.base00};
   }
 
   listview {
     enabled: true;
     layout: vertical;
-    text-color: ${styleLib.colorToHexString palette.base05};
+    text-color: ${nix-styles.colorToHexString palette.base05};
     background-color: transparent;
   }
 
@@ -61,12 +61,12 @@ in
     cursor: pointer;
     border-radius: 10px;
     background-color: transparent;
-    text-color: ${styleLib.colorToHexString palette.base05};
+    text-color: ${nix-styles.colorToHexString palette.base05};
   }
 
   element selected.normal {
-    text-color: ${styleLib.colorToHexString palette.base00};
-    background-color: ${styleLib.colorToHexString palette.base0B};
+    text-color: ${nix-styles.colorToHexString palette.base00};
+    background-color: ${nix-styles.colorToHexString palette.base0B};
   }
 
   element-text {

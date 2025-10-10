@@ -1,17 +1,20 @@
 { ... }: {
   imports = [
-    ./fastfetch.nix
-    ./kanata.nix
-    ./atuin.nix
-    ./starship.nix
-    ./alacritty.nix
-    ./imv.nix
-    ./btop.nix
-    ./zathura.nix
+    ./zsh/default.nix
+    ./imv/default.nix
+    ./mpv/default.nix
+    ./nvim/default.nix
+    ./tmux/default.nix
     ./rofi/default.nix
-    ./tmux.nix
-    ./yazi.nix
-    ./zsh.nix
-    ./bash.nix
+    ./yazi/default.nix
+    ./btop/default.nix
+    ./atuin/default.nix
+    ./devctl/default.nix
+    ./notectl/default.nix
+    ./zathura/default.nix
+    ./starship/default.nix
+    ./alacritty/default.nix
+    ./fastfetch/default.nix
+    ./qutebrowser/default.nix
   ];
 }

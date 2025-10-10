@@ -1,9 +1,9 @@
-{ style, styleLib, ... }:
+{ nix-styles, ... }:
 let
-  fonts = style.fonts;
-  rounded = style.rounded;
-  fontSizes = style.fontSizes;
-  palette = style.colors.palette;
+  fonts = nix-styles.fonts;
+  rounded = nix-styles.rounded;
+  fontSizes = nix-styles.fontSizes;
+  palette = nix-styles.colors.palette;
 in
 ''
   configuration {
@@ -16,7 +16,9 @@ in
       enabled:                     true;
       width:                       99%;
       height:                      340px;
-      background-color:            ${styleLib.colorToHexString palette.base00};
+      background-color:            ${
+        nix-styles.colorToHexString palette.base00
+      };
   }
 
   mainbox {
@@ -29,7 +31,9 @@ in
   inputbar {
       enabled:                     true;
       padding:                     8px 8px 0px 8px;
-      background-color:            ${styleLib.colorToHexString palette.base00};
+      background-color:            ${
+        nix-styles.colorToHexString palette.base00
+      };
       children:                    [ entry ];
   }
 
@@ -37,20 +41,28 @@ in
       enabled:                     true;
       padding:                     15px;
       border-radius:               ${toString rounded.md}px;
-      text-color:                  ${styleLib.colorToHexString palette.base00};
-      background-color:            ${styleLib.colorToHexString palette.base0D};
+      text-color:                  ${
+        nix-styles.colorToHexString palette.base00
+      };
+      background-color:            ${
+        nix-styles.colorToHexString palette.base0D
+      };
   }
 
   listbox {
       padding:                     0px 8px 8px 8px;
-      background-color:            ${styleLib.colorToHexString palette.base00};
+      background-color:            ${
+        nix-styles.colorToHexString palette.base00
+      };
       children:                    [ listview ];
   }
 
   listview {
       enabled:                     true;
       layout:                      horizontal;
-      text-color:                  ${styleLib.colorToHexString palette.base05};
+      text-color:                  ${
+        nix-styles.colorToHexString palette.base05
+      };
       background-color:            transparent;
   }
 
@@ -60,12 +72,16 @@ in
       border-radius:               ${toString rounded.md}px;
       orientation:                 vertical;
       cursor:                      pointer;
-      text-color:                  ${styleLib.colorToHexString palette.base05};
+      text-color:                  ${
+        nix-styles.colorToHexString palette.base05
+      };
       background-color:            transparent;
   }
 
   element selected.normal {
-      background-color:            ${styleLib.colorToHexString palette.base02};
+      background-color:            ${
+        nix-styles.colorToHexString palette.base02
+      };
   }
 
   element-text {
