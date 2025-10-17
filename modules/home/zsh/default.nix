@@ -1,10 +1,19 @@
-{ pkgs, config, lib, ... }: {
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+{
   programs.zsh = {
     enable = true;
     autosuggestion = {
       enable = true;
       highlight = "fg=5";
-      strategy = [ "history" "completion" ];
+      strategy = [
+        "history"
+        "completion"
+      ];
     };
     syntaxHighlighting.enable = true;
     dotDir = "${config.xdg.configHome}/zsh";
@@ -18,5 +27,9 @@
     '';
   };
 
-  home.packages = with pkgs; [ jq fzf tree ];
+  home.packages = [
+    pkgs.jq
+    pkgs.fzf
+    pkgs.tree
+  ];
 }

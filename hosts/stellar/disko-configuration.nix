@@ -13,8 +13,11 @@
               content = {
                 type = "filesystem";
                 format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [ "defaults" "umask=0077" ];
+                mountpoint = "/boot/efi";
+                mountOptions = [
+                  "defaults"
+                  "umask=0077"
+                ];
               };
             };
             luks = {
@@ -54,7 +57,10 @@
               type = "filesystem";
               format = "ext4";
               mountpoint = "/nix";
-              mountOptions = [ "defaults" "noatime" ];
+              mountOptions = [
+                "defaults"
+                "noatime"
+              ];
             };
           };
           root = {
@@ -63,7 +69,10 @@
               type = "filesystem";
               format = "ext4";
               mountpoint = "/";
-              mountOptions = [ "defaults" "noatime" ];
+              mountOptions = [
+                "defaults"
+                "noatime"
+              ];
             };
           };
           home = {
@@ -72,7 +81,10 @@
               type = "filesystem";
               format = "ext4";
               mountpoint = "/home";
-              mountOptions = [ "defaults" "noatime" ];
+              mountOptions = [
+                "defaults"
+                "noatime"
+              ];
             };
           };
         };

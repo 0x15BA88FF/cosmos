@@ -1,6 +1,6 @@
 { pkgs }:
 pkgs.writeShellApplication {
-  name = "pre-commit-hook";
+  name = "pre-commit";
   runtimeInputs = with pkgs; [ gitleaks ];
   text = ''
     if ! gitleaks protect --no-banner --staged --verbose; then

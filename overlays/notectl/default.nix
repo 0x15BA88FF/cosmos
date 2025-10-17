@@ -12,5 +12,3 @@ python3Packages.buildPythonApplication {
     chmod +x $out/bin/notectl
   '';
 }
-# pandoc
-# texlive-full

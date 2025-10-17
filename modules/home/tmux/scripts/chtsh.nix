@@ -1,7 +1,12 @@
 { pkgs }:
 pkgs.writeShellApplication {
   name = "cht.sh";
-  runtimeInputs = [ pkgs.tmux pkgs.fzf pkgs.curl pkgs.less ];
+  runtimeInputs = [
+    pkgs.tmux
+    pkgs.fzf
+    pkgs.curl
+    pkgs.less
+  ];
   text = ''
     lang=$(curl -s cht.sh/:list | fzf --prompt="Language/tool: ") || exit 0
     topics=$(curl -sf "https://cht.sh/$lang/:list" 2>/dev/null)

@@ -16,18 +16,23 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixvim = {
-      url = "github:nix-community/nixvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     stylix = {
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixvim.url = "github:nix-community/nixvim";
   };
 
   outputs =
-    { nixpkgs, disko, agenix, home-manager, nixvim, stylix, ... }@inputs:
+    {
+      nixpkgs,
+      disko,
+      agenix,
+      home-manager,
+      nixvim,
+      stylix,
+      ...
+    }@inputs:
     let
       system = "x86_64-linux";
       overlays = import ./overlays/default.nix;
@@ -38,6 +43,7 @@
           specialArgs = { inherit inputs; };
           modules = [
             disko.nixosModules.disko
+            stylix.nixosModules.stylix
             agenix.nixosModules.default
             ./hosts/stellar/configuration.nix
           ];

@@ -1,4 +1,5 @@
-{ ... }: {
+{ ... }:
+{
   programs.zathura = {
     enable = true;
     options = {
@@ -6,6 +7,4 @@
       selection-clipboard = "clipboard";
     };
   };
-
-  stylix.targets.zathura.enable = true;
 }

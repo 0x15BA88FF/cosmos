@@ -1,1 +1,4 @@
-{ pkgs, ... }: { home.packages = with pkgs; [ notectl ]; }
+{ pkgs, ... }:
+{
+  home.packages = [ pkgs.notectl ];
+}

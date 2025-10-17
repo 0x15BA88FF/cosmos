@@ -1,1 +1,4 @@
-{ pkgs, ... }: { home.packages = with pkgs; [ devctl ]; }
+{ pkgs, ... }:
+{
+  home.packages = with pkgs; [ devctl ];
+}

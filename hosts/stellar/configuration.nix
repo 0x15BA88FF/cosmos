@@ -1,5 +1,6 @@
-{ ... }:
-let hostname = "stellar";
+{ pkgs, ... }:
+let
+  hostname = "stellar";
 in
 {
   imports = [
@@ -8,18 +9,25 @@ in
 
     ../../users/default.nix
     ../../modules/system/default.nix
+    ./../../modules/shared/stylix.nix
   ];
 
-  age.secrets."luks-secret-${hostname}".file =
-    ../../secrets/luks-secret-${hostname}.age;
+  age.secrets."luks-secret-${hostname}".file = ../../secrets/luks-secret-${hostname}.age;
 
   boot = {
     loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-      systemd-boot.configurationLimit = 5;
+      efi = {
+        canTouchEfiVariables = true;
+        efiSysMountPoint = "/boot";
+        # efiSysMountPoint = "/boot/efi";
+      };
+      grub = {
+        device = "nodev";
+        efiSupport = true;
+        configurationLimit = 5;
+      };
     };
-
+    plymouth.enable = true;
     # initrd = {
     #   systemd.enable = true;
     #   luks.devices."crypted" = {
@@ -33,18 +41,30 @@ in
     #   secrets."/tmp/luks-secret-${hostname}" =
     #     config.age.secrets."luks-secret-${hostname}".path;
     # };
-
-    # kernelModules = [ "dm-snapshot" ];
+    kernelModules = [
+      "quiet"
+      "splash"
+      # "dm-snapshot"
+    ];
   };
 
-  swapDevices = [{
-    size = 8096;
-    device = "/swapfile";
-  }];
+  swapDevices = [
+    {
+      size = 8096;
+      device = "/swapfile";
+    }
+  ];
 
-  security.rtkit.enable = true;
+  security = {
+    rtkit.enable = true;
+    polkit.enable = true;
+  };
+
+  modules.input.kanata.enable = true;
 
   virtualisation.docker.enable = true;
+
+  hardware.opentabletdriver.enable = true;
 
   networking = {
     hostName = hostname;
@@ -54,6 +74,7 @@ in
 
   services = {
     tor.enable = true;
+    dbus.enable = true;
     tailscale.enable = true;
     automatic-timezoned.enable = true;
     smartd = {
@@ -72,10 +93,24 @@ in
       enable = true;
       alsa.enable = true;
       pulse.enable = true;
+      jack.enable = false;
     };
   };
 
-  # desktop.sway.enable = true; # checkme
+  fonts.packages = [
+    pkgs.noto-fonts
+    pkgs.noto-fonts-extra
+    pkgs.noto-fonts-emoji
+    pkgs.noto-fonts-cjk-sans
+    pkgs.nerd-fonts.jetbrains-mono
+  ];
+
+  environment.systemPackages = [
+    pkgs.git
+    pkgs.vim
+    pkgs.curl
+    pkgs.home-manager
+  ];
 
   nix = {
     gc = {
@@ -89,7 +124,10 @@ in
     };
     settings = {
       auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
   };
 

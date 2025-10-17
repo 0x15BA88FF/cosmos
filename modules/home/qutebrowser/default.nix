@@ -1,30 +1,28 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.qutebrowser = {
     enable = true;
     loadAutoconfig = true;
     searchEngines = {
       DEFAULT = "https://duckduckgo.com/?q={}";
-      yt = "https://www.youtube.com/results?search_query={}";
       wiki = "https://en.wikipedia.org/wiki/Special:Search?search={}";
 
-      archpkg = "https://archlinux.org/packages/?q={}";
-      archwiki = "https://wiki.archlinux.org/?search={}";
-      aurpkg = "https://aur.archlinux.org/packages?O=0&K={}";
-
       nixwiki = "https://wiki.nixos.org/w/index.php?search={}";
+      nixhmopts = "https://home-manager-options.extranix.com/?query={}";
       nixpkg = "https://search.nixos.org/packages?channel=unstable&query={}";
       nixopts = "https://search.nixos.org/options?channel=unstable&query={}";
-
-      aix = "https://chat.x.com/?q={}";
-      aic = "https://claude.ai/chat?q={}";
-      aio = "https://chat.openai.com/chat?q={}";
     };
     settings = {
       auto_save.session = true;
       completion = {
         shrink = true;
-        open_categories =
-          [ "searchengines" "quickmarks" "bookmarks" "history" "filesystem" ];
+        open_categories = [
+          "searchengines"
+          "quickmarks"
+          "bookmarks"
+          "history"
+          "filesystem"
+        ];
       };
       tabs = {
         show = "multiple";
@@ -32,7 +30,6 @@
         indicator.width = 0;
         title.format = "{audio}{current_title}";
       };
-      statusbar.show = "in-mode";
       colors.webpage.preferred_color_scheme = "dark";
       content.blocking = {
         enabled = true;
@@ -59,22 +56,13 @@
     };
     keyBindings = {
       normal = {
-        gJ = "tab-move +";
-        gK = "tab-move -";
-
-        pP = "open -- {primary}";
-        pp = "open -- {clipboard}";
-        pt = "open -t -- {clipboard}";
-
-        cu = "config-source theme.py";
         cs = "cmd-set-text -s :config-source";
         tp = "config-cycle content.proxy system socks://localhost:9050/";
       };
     };
     greasemonkey = [
       (pkgs.fetchurl {
-        url =
-          "https://update.greasyfork.org/scripts/498197/Auto%20Skip%20YouTube%20Ads.user.js";
+        url = "https://update.greasyfork.org/scripts/498197/Auto%20Skip%20YouTube%20Ads.user.js";
         sha256 = "sha256-BoavAeaS+qMt2pqknx6S+9kv6gXt2ZIRQsQDIMP91Ak=";
       })
     ];
@@ -83,6 +71,4 @@
       c.statusbar.padding = { "bottom": 4, "left": 8, "right": 8, "top": 4 }
     '';
   };
-
-  stylix.targets.qutebrowser.enable = true;
 }

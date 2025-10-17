@@ -1,12 +1,24 @@
-{ pkgs, lib, config, ... }: {
-  options.systemModules.kanata.enable = lib.mkEnableOption "Enable kanata";
+{
+  pkgs,
+  config,
+  lib,
+  ...
+}:
+{
+  options.modules.input.kanata = {
+    enable = lib.mkEnableOption "Kanata keyboard remapper service";
+  };
 
-  config = lib.mkIf config.systemModules.kanata.enable {
+  config = lib.mkIf config.modules.input.kanata.enable {
     boot.kernelModules = [ "uinput" ];
+
     hardware.uinput.enable = true;
+
     systemd = {
-      services.kanata-internalKeyboard.serviceConfig.SupplementaryGroups =
-        [ "input" "uinput" ];
+      services.kanata-internalKeyboard.serviceConfig.SupplementaryGroups = [
+        "input"
+        "uinput"
+      ];
       user.services.kanata = {
         description = "Kanata keyboard remapper";
         serviceConfig = {
@@ -17,6 +29,7 @@
         wantedBy = [ "default.target" ];
       };
     };
+
     services = {
       kanata = {
         enable = true;
@@ -74,6 +87,7 @@
         KERNEL=="uinput", MODE="0660", GROUP="uinput", OPTIONS+="static_node=uinput"
       '';
     };
-    environment.systemPackages = with pkgs; [ kanata ];
+
+    environment.systemPackages = [ pkgs.kanata ];
   };
 }

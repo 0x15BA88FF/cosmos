@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
-let hooksPath = "${config.home.homeDirectory}/.config/git/hooks";
+let
+  hooksPath = "${config.xdg.configHome}/git/hooks";
 in
 {
+  imports = [ ./scripts/default.nix ];
+
   programs.git = {
     enable = true;
     userName = "0x15BA88FF";
@@ -10,6 +13,6 @@ in
   };
 
   home.file."${hooksPath}/pre-commit".source = "${
-      import ./scripts/git-hooks/pre-commit.nix { inherit pkgs; }
-    }/bin/pre-commit";
+    import ./hooks/pre-commit.nix { inherit pkgs; }
+  }/bin/pre-commit";
 }
