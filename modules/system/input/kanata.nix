@@ -5,9 +5,7 @@
   ...
 }:
 {
-  options.modules.input.kanata = {
-    enable = lib.mkEnableOption "Kanata keyboard remapper service";
-  };
+  options.modules.input.kanata.enable = lib.mkEnableOption "Enable kanata";
 
   config = lib.mkIf config.modules.input.kanata.enable {
     boot.kernelModules = [ "uinput" ];
