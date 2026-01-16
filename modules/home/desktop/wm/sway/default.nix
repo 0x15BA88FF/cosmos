@@ -5,8 +5,9 @@ let
     submod = "Mod1";
   };
   app = {
+    browser = "brave";
     terminal = "alacritty";
-    browser = "qutebrowser";
+    filemanager = "nautilus";
 
     rbw = "rofi-rbw";
     calc = "rofi -show calc";
@@ -18,7 +19,7 @@ let
     rmclipboard = "clipcat-menu remove";
     screencapture = "flameshot launcher";
     notifications = "swaync-client --open-panel";
-    annotate = "flameshot gui --region 10000x10000+0+0";
+    annotate = "flameshot gui --region 1920x1080+0+0";
   };
 in
 {
@@ -51,15 +52,12 @@ in
           { app_id = "Alacritty"; }
         ];
         "2" = [
-          { app_id = "org.qutebrowser.qutebrowser"; }
+          { app_id = "brave"; }
         ];
         "3" = [
-          { app_id = "chromium-browser"; }
+          { app_id = "nautilus"; }
         ];
-        "4" = [
-          { app_id = "org.pwmt.zathura"; }
-        ];
-        "5" = [
+        "6" = [
           { class = "discord"; }
         ];
         "10" = [
@@ -78,6 +76,7 @@ in
       };
       keybindings = {
         "${keys.mod}+b" = "exec ${app.browser}";
+        "${keys.mod}+e" = "exec ${app.filemanager}";
         "${keys.mod}+Return" = "exec ${app.terminal}";
 
         "${keys.mod}+Plus" = "exec ${app.calc}";

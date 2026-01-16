@@ -13,8 +13,11 @@
       settings = {
         pinentry = pkgs.pinentry-gtk2;
         email = "15ba88+bitwarden@proton.me";
+        base_url = "https://vault.bitwarden.eu";
       };
     };
-    home.packages = [ pkgs.rofi-rbw ];
+    home.packages = [
+      pkgs.rofi-rbw
+    ];
   };
 }

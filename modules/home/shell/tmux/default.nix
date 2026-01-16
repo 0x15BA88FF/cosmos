@@ -55,10 +55,13 @@
 
         bind-key r source-file ~/.config/tmux/tmux.conf
 
+        bind-key H display-popup -E "cht.sh"
+        bind-key S display-popup -E "sessionizer"
         bind-key D display-popup -E "dev-sessionizer"
+
+        bind-key C run-shell "dev-initializer"
         bind-key N run-shell "note-sessionizer"
         bind-key E run-shell "file-sessionizer"
-        bind-key C display-popup -E "cht.sh"
 
         set -g status on
         set -g focus-events on
@@ -88,6 +91,6 @@
         setw -g window-status-current-format "#[bg=red,fg=black] #I #[bg=blue,fg=red]#[bg=blue,fg=black] #W #[bg=black] "
       '';
     };
-    home.packages = import ./scripts/default.nix { inherit pkgs; };
+    home.packages = import ./scripts { inherit pkgs; };
   };
 }

@@ -1,4 +1,4 @@
 { ... }:
 {
-  imports = [ ./input/default.nix ];
+  imports = [ ./input ];
 }

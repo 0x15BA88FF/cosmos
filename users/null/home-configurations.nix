@@ -4,8 +4,8 @@ let
 in
 {
   imports = [
-    ./../../modules/home/default.nix
-    ./../../modules/shared/stylix.nix
+    ./../../modules/home
+    ./../../modules/shared/stylix
   ];
 
   programs.home-manager.enable = true;

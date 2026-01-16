@@ -21,19 +21,11 @@
               };
             };
             luks = {
-              size = "100%";
+              size = "350G";
+              type = "8309";
               content = {
-                type = "luks";
-                name = "crypted";
-                passwordFile = "/tmp/luks-password";
-                settings = {
-                  allowDiscards = true;
-                  bypassWorkqueues = true;
-                };
-                content = {
-                  type = "lvm_pv";
-                  vg = "main_vg";
-                };
+                type = "lvm_pv";
+                vg = "main_vg";
               };
             };
           };
@@ -52,15 +44,12 @@
             };
           };
           nix = {
-            size = "40G";
+            size = "50G";
             content = {
               type = "filesystem";
               format = "ext4";
               mountpoint = "/nix";
-              mountOptions = [
-                "defaults"
-                "noatime"
-              ];
+              mountOptions = [ "defaults" "noatime" ];
             };
           };
           root = {
@@ -69,10 +58,7 @@
               type = "filesystem";
               format = "ext4";
               mountpoint = "/";
-              mountOptions = [
-                "defaults"
-                "noatime"
-              ];
+              mountOptions = [ "defaults" "noatime" ];
             };
           };
           home = {
@@ -81,10 +67,7 @@
               type = "filesystem";
               format = "ext4";
               mountpoint = "/home";
-              mountOptions = [
-                "defaults"
-                "noatime"
-              ];
+              mountOptions = [ "defaults" "noatime" ];
             };
           };
         };

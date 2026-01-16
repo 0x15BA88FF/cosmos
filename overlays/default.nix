@@ -1,6 +1,6 @@
 [
   (final: prev: {
-    devctl = prev.callPackage ./devctl/default.nix { };
-    notectl = prev.callPackage ./notectl/default.nix { };
+    devctl = prev.callPackage ./devctl { };
+    notectl = prev.callPackage ./notectl { };
   })
 ]

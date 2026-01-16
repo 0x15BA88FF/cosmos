@@ -1,7 +1,7 @@
 { ... }:
 {
   imports = [
-    ./shell/default.nix
-    ./desktop/default.nix
+    ./shell
+    ./desktop
   ];
 }

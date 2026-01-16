@@ -14,7 +14,7 @@ from typing import Optional
 class NotesManager:
     def __init__(self) -> None:
         self.notes_dir = Path(
-            os.environ.get("NOTESDIR", Path.home() / "notes")
+            os.environ.get("NOTESDIR", Path.home() / "Notes")
         ).expanduser()
         self.notes_dir.mkdir(parents=True, exist_ok=True)
 

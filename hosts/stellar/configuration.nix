@@ -4,22 +4,19 @@ let
 in
 {
   imports = [
-    # ./disko-configuration.nix
+    ./disko-configuration.nix
     ./hardware-configuration.nix
 
-    ../../users/default.nix
-    ../../modules/system/default.nix
-    ./../../modules/shared/stylix.nix
+    ../../users
+    ../../modules/system
+    ./../../modules/shared/stylix
   ];
-
-  age.secrets."luks-secret-${hostname}".file = ../../secrets/luks-secret-${hostname}.age;
 
   boot = {
     loader = {
       efi = {
         canTouchEfiVariables = true;
-        efiSysMountPoint = "/boot";
-        # efiSysMountPoint = "/boot/efi";
+        efiSysMountPoint = "/boot/efi";
       };
       grub = {
         device = "nodev";
@@ -27,49 +24,28 @@ in
         configurationLimit = 5;
       };
     };
-    plymouth.enable = true;
-    # initrd = {
-    #   systemd.enable = true;
-    #   luks.devices."crypted" = {
-    #     preLVM = true;
-    #     allowDiscards = true;
-    #     bypassWorkqueues = true;
-    #     fallbackToPassword = true;
-    #     keyFile = "/tmp/luks-secret-${hostname}";
-    #     crypttabExtraOpts = [ "tpm2-device=auto" ];
-    #   };
-    #   secrets."/tmp/luks-secret-${hostname}" =
-    #     config.age.secrets."luks-secret-${hostname}".path;
-    # };
-    kernelModules = [
-      "quiet"
-      "splash"
-      # "dm-snapshot"
-    ];
   };
 
-  swapDevices = [
-    {
-      size = 8096;
-      device = "/swapfile";
-    }
-  ];
+  hardware = {
+    graphics.enable = true;
+    opentabletdriver.enable = true;
+  };
 
   security = {
     rtkit.enable = true;
     polkit.enable = true;
   };
 
-  modules.input.kanata.enable = true;
-
   virtualisation.docker.enable = true;
-
-  hardware.opentabletdriver.enable = true;
 
   networking = {
     hostName = hostname;
     firewall.enable = true;
-    networkmanager.enable = true;
+    networkmanager = {
+      enable = true;
+      wifi.macAddress = "random";
+      ethernet.macAddress = "random";
+    };
   };
 
   services = {
@@ -83,7 +59,11 @@ in
     };
     openssh = {
       enable = true;
-      settings.PermitRootLogin = "no";
+      settings = {
+        PermitRootLogin = "no";
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+      };
     };
     displayManager.ly = {
       enable = true;
@@ -93,15 +73,20 @@ in
       enable = true;
       alsa.enable = true;
       pulse.enable = true;
-      jack.enable = false;
     };
+  };
+
+  modules.input.kanata.enable = true;
+
+  programs = {
+    sway.enable = true;
+    nix-ld.enable = true;
   };
 
   fonts.packages = [
     pkgs.noto-fonts
-    pkgs.noto-fonts-extra
-    pkgs.noto-fonts-emoji
     pkgs.noto-fonts-cjk-sans
+    pkgs.noto-fonts-color-emoji
     pkgs.nerd-fonts.jetbrains-mono
   ];
 
@@ -125,8 +110,8 @@ in
     settings = {
       auto-optimise-store = true;
       experimental-features = [
-        "nix-command"
         "flakes"
+        "nix-command"
       ];
     };
   };

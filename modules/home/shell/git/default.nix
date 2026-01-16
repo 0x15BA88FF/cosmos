@@ -13,9 +13,13 @@ in
   config = lib.mkIf config.modules.shell.git.enable {
     programs.git = {
       enable = true;
-      userName = "0x15BA88FF";
-      userEmail = "86390213+0x15BA88FF@users.noreply.github.com";
-      extraConfig.core.hooksPath = hooksPath;
+      settings = {
+        user = {
+          name = "0x15BA88FF";
+          email = "86390213+0x15BA88FF@users.noreply.github.com";
+        };
+        core.hooksPath = hooksPath;
+      };
     };
     home.file."${hooksPath}/pre-commit".source = "${
       import ./hooks/pre-commit.nix { inherit pkgs; }

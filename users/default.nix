@@ -1,6 +1,6 @@
 { lib, ... }:
 {
-  imports = [ ./null/default.nix ];
+  imports = [ ./null ];
 
   user.null.enable = lib.mkDefault true;
 }

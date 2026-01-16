@@ -10,6 +10,7 @@
   config = lib.mkIf config.modules.shell.nvim.enable {
     programs = {
       nixvim = {
+        package = pkgs.neovim-unwrapped;
         enable = true;
         defaultEditor = true;
         globals.mapleader = " ";
@@ -108,18 +109,6 @@
             action = "<cmd>lua vim.diagnostic.open_float()<CR>";
             options.desc = "Show LSP diagnostics";
           }
-          {
-            mode = "n";
-            key = "<leader>bd";
-            action = "<cmd>bd<CR>";
-            options.desc = "Delete buffer";
-          }
-          {
-            mode = "n";
-            key = "<leader>bD";
-            action = "<cmd>bd<CR>";
-            options.desc = "Delete all buffer";
-          }
         ];
 
         plugins = {
@@ -136,11 +125,37 @@
               ts_ls.enable = true;
               nil_ls.enable = true;
               lua_ls.enable = true;
+              svelte.enable = true;
               pyright.enable = true;
               rust_analyzer = {
                 enable = true;
                 installCargo = true;
                 installRustc = true;
+              };
+              # Go LSP
+              gopls = {
+                enable = true;
+                extraOptions = {
+                  settings = {
+                    gopls = {
+                      analyses = {
+                        unusedparams = true;
+                        shadow = true;
+                      };
+                      staticcheck = true;
+                      gofumpt = true;
+                      hints = {
+                        assignVariableTypes = true;
+                        compositeLiteralFields = true;
+                        compositeLiteralTypes = true;
+                        constantValues = true;
+                        functionTypeParameters = true;
+                        parameterNames = true;
+                        rangeVariableTypes = true;
+                      };
+                    };
+                  };
+                };
               };
             };
           };
@@ -179,6 +194,10 @@
                 cpp = [ "clang_format" ];
                 javascript = [ "prettier" ];
                 typescript = [ "prettier" ];
+                go = [
+                  "gofumpt"
+                  "goimports"
+                ];
                 bash = [
                   "shellcheck"
                   "shellharden"
@@ -210,6 +229,7 @@
             };
           };
 
+          # Go-specific plugin
           telescope = {
             enable = true;
             keymaps = {
@@ -249,7 +269,22 @@
 
           treesitter = {
             enable = true;
-            settings.auto_install = true;
+            settings = {
+              ensure_installed = [
+                "c"
+                "lua"
+                "vim"
+                "vimdoc"
+                "query"
+                "markdown"
+                "markdown_inline"
+                "go"
+                "gomod"
+                "gosum"
+                "gowork"
+              ];
+              auto_install = true;
+            };
           };
 
           lualine = {
@@ -277,10 +312,10 @@
         };
       };
     };
-    home.packages = [
-      pkgs.ripgrep
-      pkgs.git
-      pkgs.gcc
+    home.packages = with pkgs; [
+      ripgrep
+      git
+      gcc
     ];
   };
 }

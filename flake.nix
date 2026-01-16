@@ -25,17 +25,17 @@
 
   outputs =
     {
-      nixpkgs,
       disko,
       agenix,
-      home-manager,
       nixvim,
       stylix,
+      nixpkgs,
+      home-manager,
       ...
     }@inputs:
     let
       system = "x86_64-linux";
-      overlays = import ./overlays/default.nix;
+      overlays = import ./overlays;
     in
     {
       nixosConfigurations = {
