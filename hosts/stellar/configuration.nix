@@ -79,6 +79,7 @@ in
   modules.input.kanata.enable = true;
 
   programs = {
+    niri.enable = true;
     sway.enable = true;
     nix-ld.enable = true;
   };

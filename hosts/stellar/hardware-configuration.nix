@@ -29,19 +29,28 @@
   fileSystems."/" = {
     fsType = "ext4";
     device = "/dev/main_vg/root";
-    options = [ "noatime" "defaults" ];
+    options = [
+      "noatime"
+      "defaults"
+    ];
   };
 
   fileSystems."/nix" = {
     fsType = "ext4";
     device = "/dev/main_vg/nix";
-    options = [ "noatime" "defaults" ];
+    options = [
+      "noatime"
+      "defaults"
+    ];
   };
 
   fileSystems."/home" = {
     fsType = "ext4";
     device = "/dev/main_vg/home";
-    options = [ "noatime" "defaults" ];
+    options = [
+      "noatime"
+      "defaults"
+    ];
   };
 
   fileSystems."/boot/efi" = {

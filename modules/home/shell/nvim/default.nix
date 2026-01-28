@@ -269,21 +269,28 @@
 
           treesitter = {
             enable = true;
+            # This tells Nix to fetch and install these specific grammars
+            grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+              c
+              lua
+              vim
+              vimdoc
+              query
+              markdown
+              markdown_inline
+              go
+              gomod
+              gosum
+              gowork
+              nix
+              python
+            ];
+
             settings = {
-              ensure_installed = [
-                "c"
-                "lua"
-                "vim"
-                "vimdoc"
-                "query"
-                "markdown"
-                "markdown_inline"
-                "go"
-                "gomod"
-                "gosum"
-                "gowork"
-              ];
-              auto_install = true;
+              auto_install = false;
+              ensure_installed = [ ];
+              highlight.enable = true;
+              indent.enable = true;
             };
           };
 
