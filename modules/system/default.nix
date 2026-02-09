@@ -1,4 +1,6 @@
-{ ... }:
+{ lib, ... }:
 {
-  imports = [ ./input ];
+  imports = [ ./kanata.nix ];
+
+  modules.system.kanata.enable = lib.mkDefault false;
 }

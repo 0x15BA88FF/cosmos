@@ -1,0 +1,25 @@
+{ lib, config, ... }:
+{
+  options.modules.home.swaync.enable = lib.mkEnableOption "Enable swaync";
+
+  config = lib.mkIf config.modules.home.swaync.enable {
+    services.swaync = {
+      enable = true;
+      settings = {
+        control-center-width = 350;
+        notification-window-width = 350;
+        notification-inline-replies = true;
+        widgets = [
+          "dnd"
+          "notifications"
+          "mpris"
+        ];
+      };
+      style = ''
+        .notification, .control-center {
+          margin: 8px;
+        }
+      '';
+    };
+  };
+}

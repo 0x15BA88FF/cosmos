@@ -9,7 +9,44 @@ in
 
     ../../users
     ../../modules/system
-    ./../../modules/shared/stylix
+    ./../../modules/shared
+  ];
+
+  fileSystems = {
+    "/" = {
+      fsType = "ext4";
+      device = "/dev/main_vg/root";
+      options = [
+        "noatime"
+        "defaults"
+      ];
+    };
+    "/nix" = {
+      fsType = "ext4";
+      device = "/dev/main_vg/nix";
+      options = [
+        "noatime"
+        "defaults"
+      ];
+    };
+    "/home" = {
+      fsType = "ext4";
+      device = "/dev/main_vg/home";
+      options = [
+        "noatime"
+        "defaults"
+      ];
+    };
+    "/boot/efi" = {
+      fsType = "vfat";
+      device = "/dev/disk/by-partlabel/disk-main-boot";
+      options = [ "umask=0077" ];
+    };
+  };
+  swapDevices = [
+    {
+      device = "/dev/main_vg/swap";
+    }
   ];
 
   boot = {
@@ -76,10 +113,13 @@ in
     };
   };
 
-  modules.input.kanata.enable = true;
+  modules = {
+    shared.stylix.enable = true;
+    system.kanata.enable = true;
+  };
 
   programs = {
-    niri.enable = true;
+    zsh.enable = true;
     sway.enable = true;
     nix-ld.enable = true;
   };

@@ -5,8 +5,10 @@ in
 {
   imports = [
     ./../../modules/home
-    ./../../modules/shared/stylix
+    ./../../modules/shared
   ];
+
+  modules.shared.stylix.enable = true;
 
   programs.home-manager.enable = true;
 
