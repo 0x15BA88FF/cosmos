@@ -1,11 +1,13 @@
 {
-  description = "The cosmos is a nix flake";
-
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
     disko = {
       url = "github:nix-community/disko/latest";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    agenix = {
+      url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -22,6 +24,7 @@
   outputs =
     {
       disko,
+      agenix,
       nixvim,
       stylix,
       nixpkgs,
@@ -39,7 +42,8 @@
           modules = [
             disko.nixosModules.disko
             stylix.nixosModules.stylix
-            ./hosts/stellar/configuration.nix
+            agenix.nixosModules.default
+            ./systems/stellar/configuration.nix
           ];
         };
       };
@@ -54,7 +58,7 @@
           modules = [
             nixvim.homeModules.nixvim
             stylix.homeModules.stylix
-            ./users/null/home-configurations.nix
+            ./users/null/configurations.nix
           ];
         };
       };
