@@ -3,7 +3,7 @@
     disk = {
       main = {
         type = "disk";
-        device = "/dev/sda";
+        device = "/dev/nvme0n1";
         content = {
           type = "gpt";
           partitions = {
@@ -20,9 +20,9 @@
                 ];
               };
             };
-            luks = {
-              size = "350G";
-              type = "8309";
+            lvm = {
+              size = "100%";
+              type = "8E00";
               content = {
                 type = "lvm_pv";
                 vg = "main_vg";
@@ -37,14 +37,14 @@
         type = "lvm_vg";
         lvs = {
           swap = {
-            size = "8G";
+            size = "12G";
             content = {
               type = "swap";
               resumeDevice = true;
             };
           };
           nix = {
-            size = "50G";
+            size = "40G";
             content = {
               type = "filesystem";
               format = "ext4";
@@ -56,7 +56,7 @@
             };
           };
           root = {
-            size = "50G";
+            size = "20G";
             content = {
               type = "filesystem";
               format = "ext4";

@@ -4,7 +4,7 @@ let
 in
 {
   imports = [
-    ../../hosts/latitudee4310.nix
+    ../../hosts/15-dy4013dx.nix
     ./disko.nix
     ../../users
   ]
