@@ -132,7 +132,6 @@
                 installCargo = true;
                 installRustc = true;
               };
-              # Go LSP
               gopls = {
                 enable = true;
                 extraOptions = {
@@ -229,7 +228,6 @@
             };
           };
 
-          # Go-specific plugin
           telescope = {
             enable = true;
             keymaps = {
@@ -263,14 +261,17 @@
             };
           };
 
+          oil-git-status.enable = true;
+
+          gitsigns.enable = true;
+
           undotree.enable = true;
 
           nvim-autopairs.enable = true;
 
           treesitter = {
             enable = true;
-            # This tells Nix to fetch and install these specific grammars
-            grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
+            grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
               c
               lua
               vim
@@ -285,13 +286,9 @@
               nix
               python
             ];
-
-            settings = {
-              auto_install = false;
-              ensure_installed = [ ];
-              highlight.enable = true;
-              indent.enable = true;
-            };
+            highlight.enable = true;
+            indent.enable = true;
+            folding.enable = false;
           };
 
           lualine = {

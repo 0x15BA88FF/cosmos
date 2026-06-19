@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, config, ... }:
 {
   options.modules.home.imv.enable = lib.mkEnableOption "Enable imv";
 

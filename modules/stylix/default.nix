@@ -11,8 +11,8 @@
     stylix = {
       enable = true;
       polarity = "dark";
-      image = ../../assets/8004868.jpg;
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+      image = ../../assets/wallpapers/architects_dream.jpg;
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark.yaml";
       fonts = {
         serif = {
           name = "Noto Serif";
@@ -25,6 +25,10 @@
         monospace = {
           name = "JetBrainsMono Nerd Font";
           package = pkgs.nerd-fonts.jetbrains-mono;
+        };
+        emoji = {
+          package = pkgs.noto-fonts-color-emoji;
+          name = "Noto Color Emoji";
         };
         sizes = {
           terminal = 11;

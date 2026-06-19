@@ -2,5 +2,5 @@
 {
   imports = [ ./null ];
 
-  user.null.enable = lib.mkDefault true;
+  user.null.enable = lib.mkDefault false;
 }

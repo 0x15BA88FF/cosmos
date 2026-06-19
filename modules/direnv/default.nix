@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, config, ... }:
 {
   options.modules.home.direnv.enable = lib.mkEnableOption "Enable direnv";
 

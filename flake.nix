@@ -2,12 +2,12 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
 
-    disko = {
-      url = "github:nix-community/disko/latest";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     agenix = {
       url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    disko = {
+      url = "github:nix-community/disko/latest";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
@@ -18,31 +18,37 @@
       url = "github:nix-community/stylix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hyprland.url = "github:hyprwm/Hyprland";
     nixvim.url = "github:nix-community/nixvim";
+    helium.url = "github:oxcl/nix-flake-helium-browser";
   };
 
   outputs =
     {
-      disko,
       agenix,
+      disko,
+      helium,
+      home-manager,
+      nixpkgs,
       nixvim,
       stylix,
-      nixpkgs,
-      home-manager,
       ...
     }@inputs:
     let
       system = "x86_64-linux";
-      overlays = import ./overlays;
+      overlays = (import ./overlays) ++ [
+        helium.overlays.default
+      ];
     in
     {
       nixosConfigurations = {
         stellar = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs; };
           modules = [
+            agenix.nixosModules.default
             disko.nixosModules.disko
             stylix.nixosModules.stylix
-            agenix.nixosModules.default
             ./systems/stellar/configuration.nix
           ];
         };

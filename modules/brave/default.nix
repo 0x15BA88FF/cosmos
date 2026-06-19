@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, config, ... }:
 {
   options.modules.home.brave.enable = lib.mkEnableOption "Enable brave";
 

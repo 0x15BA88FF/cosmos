@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, config, ... }:
 {
   options.modules.home.btop.enable = lib.mkEnableOption "Enable btop";
 

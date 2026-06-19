@@ -36,25 +36,6 @@
       main_vg = {
         type = "lvm_vg";
         lvs = {
-          swap = {
-            size = "12G";
-            content = {
-              type = "swap";
-              resumeDevice = true;
-            };
-          };
-          nix = {
-            size = "40G";
-            content = {
-              type = "filesystem";
-              format = "ext4";
-              mountpoint = "/nix";
-              mountOptions = [
-                "defaults"
-                "noatime"
-              ];
-            };
-          };
           root = {
             size = "20G";
             content = {
@@ -67,8 +48,20 @@
               ];
             };
           };
+          nix = {
+            size = "100G";
+            content = {
+              type = "filesystem";
+              format = "ext4";
+              mountpoint = "/nix";
+              mountOptions = [
+                "defaults"
+                "noatime"
+              ];
+            };
+          };
           home = {
-            size = "100%FREE";
+            size = "100G";
             content = {
               type = "filesystem";
               format = "ext4";
@@ -79,6 +72,14 @@
               ];
             };
           };
+          # var = {
+          #   size = "200G";
+          #   content = {
+          #     type = "filesystem";
+          #     format = "ext4";
+          #     mountpoint = "/var";
+          #   };
+          # };
         };
       };
     };

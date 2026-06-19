@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 let
   hostname = "stellar";
 in
@@ -27,6 +27,19 @@ in
         "defaults"
       ];
     };
+    # "/var" = {
+    #   fsType = "ext4";
+    #   device = "/dev/main_vg/var";
+    #   options = [
+    #     "defaults"
+    #     "noatime"
+    #   ];
+    # };
+    "/boot/efi" = {
+      fsType = "vfat";
+      device = "/dev/disk/by-partlabel/disk-main-boot";
+      options = [ "umask=0077" ];
+    };
     "/home" = {
       fsType = "ext4";
       device = "/dev/main_vg/home";
@@ -35,17 +48,16 @@ in
         "defaults"
       ];
     };
-    "/boot/efi" = {
-      fsType = "vfat";
-      device = "/dev/disk/by-partlabel/disk-main-boot";
-      options = [ "umask=0077" ];
-    };
   };
-  swapDevices = [
-    {
-      device = "/dev/main_vg/swap";
-    }
-  ];
+
+  # swapDevices = [
+  #   {
+  #     device = "/var/lib/swapfile";
+  #     size = 12 * 1024;
+  #   }
+  # ];
+
+  # zramSwap.enable = true;
 
   boot = {
     loader = {
@@ -59,6 +71,22 @@ in
         configurationLimit = 5;
       };
     };
+    plymouth = {
+      enable = true;
+      theme = lib.mkForce "spinner_alt";
+      themePackages = with pkgs; [
+        (adi1090x-plymouth-themes.override {
+          selected_themes = [ "spinner_alt" ];
+        })
+      ];
+    };
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+      "systemd.show_status=auto"
+    ];
   };
 
   hardware = {
@@ -87,14 +115,9 @@ in
   };
 
   services = {
-    tor.enable = true;
     dbus.enable = true;
     tailscale.enable = true;
     automatic-timezoned.enable = true;
-    smartd = {
-      enable = true;
-      notifications.wall.enable = true;
-    };
     openssh = {
       enable = true;
       settings = {
@@ -102,10 +125,6 @@ in
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
       };
-    };
-    syncthing = {
-      enable = true;
-      openDefaultPorts = true;
     };
     displayManager.ly = {
       enable = true;
@@ -125,8 +144,12 @@ in
 
   programs = {
     zsh.enable = true;
-    sway.enable = true;
     nix-ld.enable = true;
+    localsend.enable = true;
+    sway = {
+      enable = true;
+      extraPackages = [ ];
+    };
   };
 
   fonts.packages = [
@@ -141,7 +164,13 @@ in
     pkgs.vim
     pkgs.curl
     pkgs.home-manager
+
+    pkgs.file
+    pkgs.winetricks
+    pkgs.wineWow64Packages.waylandFull
   ];
+
+  user.null.enable = true;
 
   nix = {
     gc = {

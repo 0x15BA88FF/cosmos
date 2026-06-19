@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, config, ... }:
 {
   options.modules.home.alacritty.enable = lib.mkEnableOption "Enable alacritty";
 

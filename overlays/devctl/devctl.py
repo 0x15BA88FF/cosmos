@@ -21,7 +21,6 @@ class Devctl:
         self.templates_dir: Path = self.root / "templates"
 
     def clone(self, origin: str) -> None:
-        """Clone a repository and place it in the correct directory."""
         platform, username, repo = self._parse_origin(origin)
 
         if username:
@@ -40,7 +39,6 @@ class Devctl:
     def new(
         self, name: str, template: Optional[str] = None, origin: Optional[str] = None
     ) -> None:
-        """Create a new project, optionally from a template."""
         name = name.lower()
 
         if not re.fullmatch(r"[a-z0-9_.-]+", name):
@@ -89,7 +87,6 @@ class Devctl:
         print(f"[INFO]: Created project at {dest}")
 
     def find(self, query: Optional[str] = None) -> None:
-        """Search for repositories within the workspace."""
         if query == "*":
             pattern = None
         elif query:
@@ -105,7 +102,6 @@ class Devctl:
                     print(repo.relative_to(self.root))
 
     def clean(self) -> None:
-        """Perform maintenance: remove empty dirs and fix misplaced repos."""
         for base_dir in [self.hosts_dir, self.local_dir]:
             if not base_dir.exists():
                 continue
@@ -128,7 +124,6 @@ class Devctl:
     def _find_repositories(
         self, path: Path, max_depth: int, current_depth: int = 0
     ) -> list[Path]:
-        """Find all Git repositories up to max_depth."""
         if current_depth >= max_depth or not path.is_dir():
             return []
 
@@ -152,7 +147,6 @@ class Devctl:
         return repos
 
     def _get_origin(self, repo: Path) -> Optional[str]:
-        """Get the origin URL of a repository."""
         try:
             result = subprocess.run(
                 ["git", "remote", "get-url", "origin"],
@@ -166,7 +160,6 @@ class Devctl:
             return None
 
     def _get_expected_path(self, origin: str) -> Optional[Path]:
-        """Calculate expected path for a repository based on its origin."""
         try:
             platform, username, repo = self._parse_origin(origin)
             if username:
@@ -177,7 +170,6 @@ class Devctl:
             return None
 
     def _remove_empty_dirs(self, path: Path) -> None:
-        """Recursively remove empty directories."""
         if not path.is_dir():
             return
 
@@ -192,7 +184,6 @@ class Devctl:
             pass
 
     def _parse_origin(self, url: str) -> Tuple[str, str, str]:
-        """Parse Git URL into (platform, username, repo)."""
         patterns = [
             r"^https?://(?P<platform>[^/]+)/(?P<username>[^/]+)/(?P<repo>[^/]+?)(?:\.git)?$",
             r"^git@(?P<platform>[^:]+):(?P<username>[^/]+)/(?P<repo>[^/]+?)(?:\.git)?$",
@@ -219,7 +210,7 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
 
     path_parser = sub.add_parser("path", help="Show notes directory path")
-    path_parser.set_defaults(func=lambda args: print(dev.root))
+    path_parser.set_defaults(func=lambda _: print(dev.root))
 
     clone_parser = sub.add_parser("clone", help="Clone a repository")
     clone_parser.add_argument("origin", help="Git repository URL")
@@ -238,7 +229,7 @@ def main() -> None:
     find_parser.set_defaults(func=lambda args: dev.find(args.query))
 
     clean_parser = sub.add_parser("clean", help="Clean and organize workspace")
-    clean_parser.set_defaults(func=lambda args: dev.clean())
+    clean_parser.set_defaults(func=lambda _: dev.clean())
 
     args = parser.parse_args()
     args.func(args)

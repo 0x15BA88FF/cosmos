@@ -10,8 +10,9 @@ let
     submod = "Mod1";
   };
   app = {
-    browser = "brave";
-    terminal = "alacritty";
+    bar = "waybar";
+    browser = "helium";
+    terminal = "ghostty";
     filemanager = "nautilus";
 
     rbw = "rofi-rbw";
@@ -31,12 +32,6 @@ in
   options.modules.home.sway.enable = lib.mkEnableOption "Enable sway";
 
   config = lib.mkIf config.modules.home.sway.enable {
-    xdg.portal = {
-      enable = true;
-      config.common.default = [ "wlr" ];
-      extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
-    };
-
     programs.swaylock.enable = true;
 
     home.packages = [
@@ -52,18 +47,18 @@ in
       config = {
         terminal = app.terminal;
         startup = [
-          { command = app.terminal; }
+          { command = app.bar; }
           { command = app.browser; }
+          { command = app.terminal; }
         ];
         assigns = {
           "1" = [
-            { app_id = "Alacritty"; }
+            { app_id = "ghostty"; }
+            { app_id = "alacritty"; }
           ];
           "2" = [
             { app_id = "brave"; }
-          ];
-          "3" = [
-            { app_id = "nautilus"; }
+            { app_id = "helium"; }
           ];
           "6" = [
             { class = "discord"; }
@@ -75,7 +70,7 @@ in
         gaps.inner = 4;
         bars = [ ];
         window = {
-          border = 0;
+          border = 2;
           titlebar = false;
         };
         floating = {
@@ -83,8 +78,8 @@ in
           modifier = keys.mod;
         };
         keybindings = {
-          "${keys.mod}+b" = "exec ${app.browser}";
-          "${keys.mod}+e" = "exec ${app.filemanager}";
+          "${keys.mod}+Shift+b" = "exec sh -c 'pgrep -x waybar >/dev/null && pkill waybar || waybar &'";
+
           "${keys.mod}+Return" = "exec ${app.terminal}";
 
           "${keys.mod}+Plus" = "exec ${app.calc}";
@@ -96,7 +91,7 @@ in
           "${keys.mod}+Space" = "exec ${app.launcher}";
           "${keys.mod}+w" = "exec ${app.windowmenu}";
           "${keys.mod}+n" = "exec ${app.notifications}";
-          "Print" = "exec ${app.screencapture}";
+          "${keys.mod}+Print" = "exec ${app.screencapture}";
 
           "${keys.mod}+q" = "kill";
           "${keys.mod}+r" = "reload";
@@ -116,6 +111,10 @@ in
           "${keys.mod}+Control+j" = "move down";
           "${keys.mod}+Control+k" = "move up";
           "${keys.mod}+Control+l" = "move right";
+
+          "${keys.mod}+SHIFT+g" = "exec neru grid";
+          "${keys.mod}+SHIFT+h" = "exec neru hints";
+          "${keys.mod}+SHIFT+s" = "exec neru scroll";
 
           "${keys.mod}+${keys.submod}+slash" = "layout toggle split";
 
@@ -164,6 +163,26 @@ in
           "XF86AudioMedia" = "exec playerctl play-pause";
           "XF86AudioNext" = "exec playerctl next";
           "XF86AudioPrev" = "exec playerctl previous";
+
+          "${keys.mod}+${keys.submod}+y" = "input type:touch events toggle enabled disabled";
+          "${keys.mod}+${keys.submod}+t" = "input type:touchpad events toggle enabled disabled";
+        };
+        input = {
+          "type:touch" = {
+            events = "disabled";
+          };
+          "type:touchpad" = {
+            tap = "enable";
+            tap_button_map = "lrm";
+
+            dwt = "enabled";
+            dwtp = "enabled";
+
+            natural_scroll = "enabled";
+
+            accel_profile = "flat";
+            pointer_accel = "0.2";
+          };
         };
       };
     };
@@ -185,29 +204,13 @@ in
             command = display "off";
             resumeCommand = display "on";
           }
-          # {
-          #   timeout = 360;
-          #   command = "${pkgs.systemd}/bin/systemctl suspend";
-          # }
         ];
-        events = [
-          {
-            event = "before-sleep";
-            command = (display "off") + "; " + lock;
-          }
-          {
-            event = "after-resume";
-            command = display "on";
-          }
-          {
-            event = "lock";
-            command = (display "off") + "; " + lock;
-          }
-          {
-            event = "unlock";
-            command = display "on";
-          }
-        ];
+        events = {
+          before-sleep = "${display "off"}; ${lock}";
+          after-resume = "${display "on"}";
+          lock = "${display "off"}; ${lock}";
+          unlock = "${display "on"}";
+        };
       };
   };
 }

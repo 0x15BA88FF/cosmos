@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ lib, config, ... }:
 {
   options.modules.home.clipcat.enable = lib.mkEnableOption "Enable clipcat";
 

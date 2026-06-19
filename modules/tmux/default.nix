@@ -1,7 +1,7 @@
 {
+  lib,
   pkgs,
   config,
-  lib,
   ...
 }:
 {
@@ -59,10 +59,13 @@
         bind-key S display-popup -E "sessionizer"
         bind-key D display-popup -E "dev-sessionizer"
 
+        bind-key E run-shell "file-sessionizer"
+
         set -g status on
         set -g focus-events on
         set -g status-interval 1
         set -g status-position top
+        set -g status-justify centre
         set -g status-left-length "100"
         set -g status-right-length "100"
 
@@ -80,11 +83,11 @@
         setw -g mode-style "bg=red fg=black bold"
         setw -g window-status-activity-style "fg=white"
 
-        setw -g status-left "#[bg=red,fg=black]  #S #T #[bg=black] "
-        setw -g status-right "#[bg=red,fg=black] #{?pane_mode,#{pane_mode},normal} "
+        setw -g status-left "#[bg=blue,fg=black] #S #[bg=black] "
+        setw -g status-right "#[bg=blue,fg=black] #{?pane_mode,#{pane_mode},normal} "
 
-        setw -g window-status-format "#[bg=red,fg=black] #I #[bg=black] "
-        setw -g window-status-current-format "#[bg=red,fg=black] #I #[bg=blue,fg=red]#[bg=blue,fg=black] #W #[bg=black] "
+        setw -g window-status-format "#[bg=blue,fg=black] #I "
+        setw -g window-status-current-format "#[bg=red,fg=black] #I #W "
       '';
     };
     home.packages = import ./scripts { inherit pkgs; };
