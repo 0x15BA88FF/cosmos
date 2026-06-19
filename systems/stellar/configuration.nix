@@ -19,6 +19,19 @@ in
         "defaults"
       ];
     };
+    "/boot/efi" = {
+      fsType = "vfat";
+      device = "/dev/disk/by-partlabel/disk-main-boot";
+      options = [ "umask=0077" ];
+    };
+    "/home" = {
+      fsType = "ext4";
+      device = "/dev/main_vg/home";
+      options = [
+        "noatime"
+        "defaults"
+      ];
+    };
     "/nix" = {
       fsType = "ext4";
       device = "/dev/main_vg/nix";
@@ -35,19 +48,6 @@ in
     #     "noatime"
     #   ];
     # };
-    "/boot/efi" = {
-      fsType = "vfat";
-      device = "/dev/disk/by-partlabel/disk-main-boot";
-      options = [ "umask=0077" ];
-    };
-    "/home" = {
-      fsType = "ext4";
-      device = "/dev/main_vg/home";
-      options = [
-        "noatime"
-        "defaults"
-      ];
-    };
   };
 
   # swapDevices = [
@@ -60,6 +60,13 @@ in
   # zramSwap.enable = true;
 
   boot = {
+    consoleLogLevel = 3;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "udev.log_level=3"
+      "systemd.show_status=auto"
+    ];
     loader = {
       efi = {
         canTouchEfiVariables = true;
@@ -80,13 +87,6 @@ in
         })
       ];
     };
-    consoleLogLevel = 3;
-    initrd.verbose = false;
-    kernelParams = [
-      "quiet"
-      "udev.log_level=3"
-      "systemd.show_status=auto"
-    ];
   };
 
   hardware = {
@@ -103,10 +103,7 @@ in
 
   networking = {
     hostName = hostname;
-    firewall = {
-      enable = true;
-      allowedTCPPorts = [ 8384 ];
-    };
+    firewall.enable = true;
     networkmanager = {
       enable = true;
       wifi.macAddress = "random";
@@ -115,9 +112,12 @@ in
   };
 
   services = {
-    dbus.enable = true;
-    tailscale.enable = true;
     automatic-timezoned.enable = true;
+    dbus.enable = true;
+    displayManager.ly = {
+      enable = true;
+      settings.animation = "matrix";
+    };
     openssh = {
       enable = true;
       settings = {
@@ -126,15 +126,12 @@ in
         KbdInteractiveAuthentication = false;
       };
     };
-    displayManager.ly = {
-      enable = true;
-      settings.animation = "matrix";
-    };
     pipewire = {
       enable = true;
       alsa.enable = true;
       pulse.enable = true;
     };
+    tailscale.enable = true;
   };
 
   modules = {
@@ -142,15 +139,7 @@ in
     system.kanata.enable = true;
   };
 
-  programs = {
-    zsh.enable = true;
-    nix-ld.enable = true;
-    localsend.enable = true;
-    sway = {
-      enable = true;
-      extraPackages = [ ];
-    };
-  };
+  user.null.enable = true;
 
   fonts.packages = [
     pkgs.noto-fonts
@@ -164,13 +153,7 @@ in
     pkgs.vim
     pkgs.curl
     pkgs.home-manager
-
-    pkgs.file
-    pkgs.winetricks
-    pkgs.wineWow64Packages.waylandFull
   ];
-
-  user.null.enable = true;
 
   nix = {
     gc = {

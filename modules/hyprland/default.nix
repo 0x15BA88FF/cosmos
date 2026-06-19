@@ -77,80 +77,8 @@ in
           };
         };
 
-        # ── Keybindings ──
         bind = [
-
-          # launchers
           "${keys.mod}, RETURN, exec, ${app.terminal}"
-          "${keys.mod}, SPACE, exec, ${app.launcher}"
-          "${keys.mod}, PERIOD, exec, ${app.emoji}"
-          "${keys.mod}, PLUS, exec, ${app.calc}"
-          "${keys.mod}, W, exec, ${app.windowmenu}"
-          "${keys.mod}, V, exec, ${app.clipboard}"
-          "${keys.mod} SHIFT, V, exec, ${app.rmclipboard}"
-          "${keys.mod}, N, exec, ${app.notifications}"
-          "${keys.mod}, PRINT, exec, ${app.screencapture}"
-
-          # system
-          "${keys.mod}, Q, killactive"
-          "${keys.mod}, F, fullscreen"
-
-          # power / exit
-          "${keys.mod}, ESCAPE, exit"
-          "${keys.mod}, DELETE, exec, ${app.powermenu}"
-
-          # focus movement
-          "${keys.mod}, H, movefocus, l"
-          "${keys.mod}, L, movefocus, r"
-          "${keys.mod}, K, movefocus, u"
-          "${keys.mod}, J, movefocus, d"
-
-          # window movement
-          "${keys.mod} CTRL, H, movewindow, l"
-          "${keys.mod} CTRL, L, movewindow, r"
-          "${keys.mod} CTRL, K, movewindow, u"
-          "${keys.mod} CTRL, J, movewindow, d"
-
-          # resize
-          "${keys.mod} SHIFT CTRL, H, resizeactive, -10 0"
-          "${keys.mod} SHIFT CTRL, L, resizeactive, 10 0"
-          "${keys.mod} SHIFT CTRL, K, resizeactive, 0 -10"
-          "${keys.mod} SHIFT CTRL, J, resizeactive, 0 10"
-
-          # workspaces
-          "${keys.mod}, 1, workspace, 1"
-          "${keys.mod}, 2, workspace, 2"
-          "${keys.mod}, 3, workspace, 3"
-          "${keys.mod}, 4, workspace, 4"
-          "${keys.mod}, 5, workspace, 5"
-          "${keys.mod}, 6, workspace, 6"
-          "${keys.mod}, 7, workspace, 7"
-          "${keys.mod}, 8, workspace, 8"
-          "${keys.mod}, 9, workspace, 9"
-          "${keys.mod}, 0, workspace, 10"
-
-          "${keys.mod} SHIFT, 1, movetoworkspace, 1"
-          "${keys.mod} SHIFT, 2, movetoworkspace, 2"
-          "${keys.mod} SHIFT, 3, movetoworkspace, 3"
-          "${keys.mod} SHIFT, 4, movetoworkspace, 4"
-          "${keys.mod} SHIFT, 5, movetoworkspace, 5"
-          "${keys.mod} SHIFT, 6, movetoworkspace, 6"
-          "${keys.mod} SHIFT, 7, movetoworkspace, 7"
-          "${keys.mod} SHIFT, 8, movetoworkspace, 8"
-          "${keys.mod} SHIFT, 9, movetoworkspace, 9"
-          "${keys.mod} SHIFT, 0, movetoworkspace, 10"
-
-          # media keys
-          ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
-          ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
-          ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-
-          ", XF86AudioNext, exec, playerctl next"
-          ", XF86AudioPrev, exec, playerctl previous"
-          ", XF86AudioPlay, exec, playerctl play-pause"
-
-          ", XF86MonBrightnessUp, exec, brightnessctl s 10%+"
-          ", XF86MonBrightnessDown, exec, brightnessctl s 10%-"
         ];
 
         # ── Window rules (Sway assigns equivalent) ──
@@ -195,9 +123,6 @@ in
       };
     };
 
-    ## ─────────────────────────────────────────────
-    ## HYPRPAPER (wallpaper manager)
-    ## ─────────────────────────────────────────────
     services.hyprpaper = {
       enable = true;
       settings = {

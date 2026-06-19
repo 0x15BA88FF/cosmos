@@ -16,6 +16,7 @@ let
         ./codex
         ./cursor-cli
         ./devctl
+        ./wine
         ./direnv
         ./discord
         ./easyeffects
@@ -65,6 +66,7 @@ let
         codex.enable = lib.mkDefault false;
         cursor-cli.enable = lib.mkDefault false;
         devctl.enable = lib.mkDefault false;
+        wine.enable = lib.mkDefault false;
         helium.enable = lib.mkDefault false;
         direnv.enable = lib.mkDefault false;
         discord.enable = lib.mkDefault false;

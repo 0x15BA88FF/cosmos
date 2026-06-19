@@ -22,25 +22,26 @@ in
     flameshot.enable = true;
     ghostty.enable = true;
     git.enable = true;
+    hyprland.enable = true;
     helium.enable = true;
     imv.enable = true;
     mpv.enable = true;
-    nvim.enable = true;
     nemo.enable = true;
-    opencode.enable = true;
-    obsidian.enable = true;
+    nvim.enable = true;
     obs-studio.enable = true;
+    obsidian.enable = true;
+    opencode.enable = true;
     prism-launcher.enable = true;
     rofi.enable = true;
     ssh.enable = true;
     starship.enable = true;
-    hyprland.enable = true;
     sway.enable = true;
     swaync.enable = true;
     tmux.enable = true;
+    wine.enable = true;
+    xdg.enable = true;
     zathura.enable = true;
     zsh.enable = true;
-    xdg.enable = true;
   };
 
   home = {
