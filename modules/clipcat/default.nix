@@ -7,7 +7,7 @@
       enable = true;
       daemonSettings = {
         daemonize = true;
-        max_history = 1000;
+        max_history = 5000;
         desktop_notification.enable = false;
       };
       menuSettings = {

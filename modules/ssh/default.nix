@@ -1,4 +1,5 @@
 { config, lib, ... }:
+
 {
   options.modules.home.ssh.enable = lib.mkEnableOption "Enable ssh";
 
@@ -6,7 +7,13 @@
     programs.ssh = {
       enable = true;
       enableDefaultConfig = false;
+
+      settings = {
+        "Host *" = {
+          identityFile = "~/.ssh/id_ed25519";
+          addKeysToAgent = "yes";
+        };
+      };
     };
-    services.ssh-agent.enable = true;
   };
 }

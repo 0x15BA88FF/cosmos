@@ -11,6 +11,7 @@
   ];
 
   boot = {
+    extraModulePackages = [ ];
     initrd = {
       availableKernelModules = [
         "vmd"
@@ -19,11 +20,10 @@
       ];
       kernelModules = [ "dm-snapshot" ];
     };
-    extraModulePackages = [ ];
     kernelModules = [ "kvm-intel" ];
   };
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

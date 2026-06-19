@@ -11,7 +11,6 @@
   ];
 
   boot = {
-    kernelModules = [ "kvm-intel" ];
     initrd.availableKernelModules = [
       "ahci"
       "sd_mod"
@@ -20,11 +19,12 @@
       "sdhci_pci"
       "usb_storage"
     ];
+    kernelModules = [ "kvm-intel" ];
   };
+
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   networking.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

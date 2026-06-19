@@ -11,7 +11,7 @@
     stylix = {
       enable = true;
       polarity = "dark";
-      image = ../../assets/wallpapers/architects_dream.jpg;
+      image = ../../assets/wallpapers/the-architects-dream.jpg;
       base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark.yaml";
       fonts = {
         serif = {
