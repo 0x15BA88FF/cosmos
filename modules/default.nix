@@ -16,8 +16,11 @@ let
         ./codex
         ./cursor-cli
         ./devctl
+        ./rmpc
+        ./github-cli
         ./wine
         ./direnv
+        ./mangohud
         ./discord
         ./easyeffects
         ./flameshot
@@ -44,10 +47,9 @@ let
         ./ssh
         ./starship
         ./sway
-        ./hyprland
+        ./swayidle
         ./swaync
         ./tmux
-        ./waybar
         ./yazi
         ./zathura
         ./zsh
@@ -66,9 +68,12 @@ let
         codex.enable = lib.mkDefault false;
         cursor-cli.enable = lib.mkDefault false;
         devctl.enable = lib.mkDefault false;
+        rmpc.enable = lib.mkDefault false;
+        github-cli.enable = lib.mkDefault false;
         wine.enable = lib.mkDefault false;
         helium.enable = lib.mkDefault false;
         direnv.enable = lib.mkDefault false;
+        mangohud.enable = lib.mkDefault false;
         discord.enable = lib.mkDefault false;
         easyeffects.enable = lib.mkDefault false;
         flameshot.enable = lib.mkDefault false;
@@ -93,11 +98,10 @@ let
         slack.enable = lib.mkDefault false;
         ssh.enable = lib.mkDefault false;
         starship.enable = lib.mkDefault false;
-        hyprland.enable = lib.mkDefault false;
         sway.enable = lib.mkDefault false;
+        swayidle.enable = lib.mkDefault false;
         swaync.enable = lib.mkDefault false;
         tmux.enable = lib.mkDefault false;
-        waybar.enable = lib.mkDefault false;
         yazi.enable = lib.mkDefault false;
         zathura.enable = lib.mkDefault false;
         zsh.enable = lib.mkDefault false;

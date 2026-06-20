@@ -90,8 +90,35 @@ in
   };
 
   hardware = {
+    bluetooth = {
+      enable = true;
+      powerOnBoot = false;
+      settings = {
+        General = {
+          Experimental = true;
+          Enable = "Source,Sink,Media,Socket";
+        };
+      };
+    };
     graphics.enable = true;
     opentabletdriver.enable = true;
+    pulseaudio = {
+      enable = false;
+      package = pkgs.pulseaudioFull;
+    };
+  };
+
+  systemd.user.services.mpris-proxy = {
+    description = "Mpris proxy";
+    after = [
+      "network.target"
+      "sound.target"
+    ];
+    wantedBy = [ "default.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.bluez}/bin/mpris-proxy";
+    };
   };
 
   security = {
@@ -113,6 +140,7 @@ in
 
   services = {
     automatic-timezoned.enable = true;
+    blueman.enable = true;
     dbus.enable = true;
     displayManager.ly = {
       enable = true;

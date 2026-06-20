@@ -21,10 +21,11 @@ in
     easyeffects.enable = true;
     flameshot.enable = true;
     ghostty.enable = true;
+    github-cli.enable = true;
     git.enable = true;
-    hyprland.enable = true;
     helium.enable = true;
     imv.enable = true;
+    mangohud.enable = true;
     mpv.enable = true;
     nemo.enable = true;
     nvim.enable = true;
@@ -32,10 +33,12 @@ in
     obsidian.enable = true;
     opencode.enable = true;
     prism-launcher.enable = true;
+    rmpc.enable = true;
     rofi.enable = true;
     ssh.enable = true;
     starship.enable = true;
     sway.enable = true;
+    swayidle.enable = true;
     swaync.enable = true;
     tmux.enable = true;
     wine.enable = true;

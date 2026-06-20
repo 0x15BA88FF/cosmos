@@ -11,10 +11,7 @@
     xdg.portal = {
       enable = true;
       config.common.default = lib.mkDefault "wlr";
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-hyprland
-        xdg-desktop-portal-wlr
-      ];
+      extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
     };
   };
 }

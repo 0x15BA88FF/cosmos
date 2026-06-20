@@ -1,6 +1,6 @@
 {
-  pkgs,
   lib,
+  pkgs,
   config,
   ...
 }:
@@ -10,12 +10,8 @@ let
     submod = "Mod1";
   };
   app = {
-    bar = "waybar";
-    browser = "helium";
-    terminal = "ghostty";
-    filemanager = "nautilus";
-
     rbw = "rofi-rbw";
+    terminal = "ghostty";
     calc = "rofi -show calc";
     emoji = "rofi -show emoji";
     launcher = "rofi -show drun";
@@ -32,13 +28,13 @@ in
   options.modules.home.sway.enable = lib.mkEnableOption "Enable sway";
 
   config = lib.mkIf config.modules.home.sway.enable {
-    programs.swaylock.enable = true;
-
     home.packages = [
       pkgs.wtype
       pkgs.pavucontrol
       pkgs.wl-clipboard
       pkgs.brightnessctl
+      pkgs.brightnessctl
+      pkgs.networkmanagerapplet
     ];
 
     wayland.windowManager.sway = {
@@ -46,11 +42,6 @@ in
       wrapperFeatures.gtk = true;
       config = {
         terminal = app.terminal;
-        startup = [
-          { command = app.bar; }
-          { command = app.browser; }
-          { command = app.terminal; }
-        ];
         assigns = {
           "1" = [
             { app_id = "ghostty"; }
@@ -60,13 +51,44 @@ in
             { app_id = "brave"; }
             { app_id = "helium"; }
           ];
-          "6" = [
+          "3" = [
+            { app_id = "obsidian"; }
+          ];
+          "4" = [
+            { app_id = "mpv"; }
+            { app_id = "nemo"; }
+            { app_id = "org.pwmt.zathura"; }
+          ];
+          "5" = [ ];
+          "6" = [ ];
+          "7" = [ ];
+          "8" = [
             { class = "discord"; }
+            { app_id = "vesktop"; }
+          ];
+          "9" = [
+            { app_id = "com.obsproject.Studio"; }
+            { app_id = "OpenTabletDriver.UX.Gtk"; }
+            { app_id = "com.github.wwmm.easyeffects"; }
           ];
           "10" = [
-            { app_id = "com.obsproject.Studio"; }
+            { app_id = "org.prismlauncher.PrismLauncher"; }
           ];
         };
+        floating.criteria = [
+          { app_id = "pavucontrol"; }
+          { class = "Blueman-manager"; }
+          { title = "Picture-in-Picture"; }
+          { app_id = "org.pulseaudio.pavucontrol"; }
+          { app_id = "blueman-manager"; }
+          { app_id = "localsend_app"; }
+          { title = "Capture Launcher"; }
+          { app_id = "qt6ct"; }
+          { app_id = "qt5ct"; }
+          { app_id = "dialog"; }
+          { app_id = "nm-connection-editor"; }
+          { title = "dialog"; }
+        ];
         gaps.inner = 4;
         bars = [ ];
         window = {
@@ -78,8 +100,6 @@ in
           modifier = keys.mod;
         };
         keybindings = {
-          "${keys.mod}+Shift+b" = "exec sh -c 'pgrep -x waybar >/dev/null && pkill waybar || waybar &'";
-
           "${keys.mod}+Return" = "exec ${app.terminal}";
 
           "${keys.mod}+Plus" = "exec ${app.calc}";
@@ -133,6 +153,7 @@ in
           "${keys.mod}+8" = "workspace number 8";
           "${keys.mod}+9" = "workspace number 9";
           "${keys.mod}+0" = "workspace number 10";
+          "${keys.mod}+grave" = "scratchpad show";
 
           "${keys.mod}+Shift+1" = "move container to workspace number 1";
           "${keys.mod}+Shift+2" = "move container to workspace number 2";
@@ -144,6 +165,7 @@ in
           "${keys.mod}+Shift+8" = "move container to workspace number 8";
           "${keys.mod}+Shift+9" = "move container to workspace number 9";
           "${keys.mod}+Shift+0" = "move container to workspace number 10";
+          "${keys.mod}+Shift+grave" = "move scratchpad";
 
           "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
           "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
@@ -186,31 +208,5 @@ in
         };
       };
     };
-
-    services.swayidle =
-      let
-        lock = "${pkgs.swaylock}/bin/swaylock --daemonize";
-        display = status: "swaymsg 'output * power ${status}'";
-      in
-      {
-        enable = true;
-        timeouts = [
-          {
-            timeout = 300;
-            command = lock;
-          }
-          {
-            timeout = 330;
-            command = display "off";
-            resumeCommand = display "on";
-          }
-        ];
-        events = {
-          before-sleep = "${display "off"}; ${lock}";
-          after-resume = "${display "on"}";
-          lock = "${display "off"}; ${lock}";
-          unlock = "${display "on"}";
-        };
-      };
   };
 }
