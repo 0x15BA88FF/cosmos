@@ -9,6 +9,7 @@ let
     mod = "Mod4";
     submod = "Mod1";
   };
+
   app = {
     rbw = "rofi-rbw";
     terminal = "ghostty";
@@ -40,41 +41,55 @@ in
     wayland.windowManager.sway = {
       enable = true;
       wrapperFeatures.gtk = true;
+
       config = {
+        startup = [
+          { command = "voxtype daemon"; }
+        ];
+
         terminal = app.terminal;
+
         assigns = {
           "1" = [
             { app_id = "ghostty"; }
             { app_id = "alacritty"; }
           ];
+
           "2" = [
             { app_id = "brave"; }
             { app_id = "helium"; }
           ];
+
           "3" = [
             { app_id = "obsidian"; }
           ];
+
           "4" = [
             { app_id = "mpv"; }
             { app_id = "nemo"; }
             { app_id = "org.pwmt.zathura"; }
           ];
+
           "5" = [ ];
           "6" = [ ];
           "7" = [ ];
+
           "8" = [
             { class = "discord"; }
             { app_id = "vesktop"; }
           ];
+
           "9" = [
             { app_id = "com.obsproject.Studio"; }
             { app_id = "OpenTabletDriver.UX.Gtk"; }
             { app_id = "com.github.wwmm.easyeffects"; }
           ];
+
           "10" = [
             { app_id = "org.prismlauncher.PrismLauncher"; }
           ];
         };
+
         floating.criteria = [
           { app_id = "pavucontrol"; }
           { class = "Blueman-manager"; }
@@ -89,18 +104,46 @@ in
           { app_id = "nm-connection-editor"; }
           { title = "dialog"; }
         ];
+
+        # Godot:
+        # - Main editor stays tiled.
+        # - Other Godot windows are floating.
+        window.commands = [
+          {
+            command = "floating enable";
+            criteria = {
+              class = "Godot";
+            };
+          }
+
+          {
+            command = "floating disable";
+            criteria = {
+              class = "Godot";
+              title = ".* - Godot Engine";
+            };
+          }
+        ];
+
         gaps.inner = 4;
+
         bars = [ ];
+
         window = {
           border = 2;
           titlebar = false;
         };
+
         floating = {
           titlebar = false;
           modifier = keys.mod;
         };
+
         keybindings = {
           "${keys.mod}+Return" = "exec ${app.terminal}";
+
+          "XF86AudioRecord" = "exec voxtype record toggle";
+          "${keys.submod}+r" = "exec voxtype record toggle";
 
           "${keys.mod}+Plus" = "exec ${app.calc}";
           "${keys.mod}+a" = "exec ${app.annotate}";
@@ -139,8 +182,11 @@ in
           "${keys.mod}+${keys.submod}+slash" = "layout toggle split";
 
           "${keys.mod}+Shift+Control+h" = "resize grow width 10 px or 10 ppt";
+
           "${keys.mod}+Shift+Control+j" = "resize shrink height 10 px or 10 ppt";
+
           "${keys.mod}+Shift+Control+k" = "resize grow height 10 px or 10 ppt";
+
           "${keys.mod}+Shift+Control+l" = "resize shrink width 10 px or 10 ppt";
 
           "${keys.mod}+1" = "workspace number 1";
@@ -153,46 +199,71 @@ in
           "${keys.mod}+8" = "workspace number 8";
           "${keys.mod}+9" = "workspace number 9";
           "${keys.mod}+0" = "workspace number 10";
+
           "${keys.mod}+grave" = "scratchpad show";
 
           "${keys.mod}+Shift+1" = "move container to workspace number 1";
+
           "${keys.mod}+Shift+2" = "move container to workspace number 2";
+
           "${keys.mod}+Shift+3" = "move container to workspace number 3";
+
           "${keys.mod}+Shift+4" = "move container to workspace number 4";
+
           "${keys.mod}+Shift+5" = "move container to workspace number 5";
+
           "${keys.mod}+Shift+6" = "move container to workspace number 6";
+
           "${keys.mod}+Shift+7" = "move container to workspace number 7";
+
           "${keys.mod}+Shift+8" = "move container to workspace number 8";
+
           "${keys.mod}+Shift+9" = "move container to workspace number 9";
+
           "${keys.mod}+Shift+0" = "move container to workspace number 10";
+
           "${keys.mod}+Shift+grave" = "move scratchpad";
 
           "XF86MonBrightnessUp" = "exec brightnessctl s 10%+";
+
           "XF86MonBrightnessDown" = "exec brightnessctl s 10%-";
 
           "XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
+
           "XF86AudioRaiseVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+";
+
           "XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-";
 
           "XF86AudioMicMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+
           "Shift+XF86AudioMute" = "exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle";
+
           "Shift+XF86AudioRaiseVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+";
+
           "Shift+XF86AudioLowerVolume" = "exec wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-";
 
           "XF86AudioPlay" = "exec playerctl play";
+
           "XF86AudioStop" = "exec playerctl stop";
+
           "XF86AudioPause" = "exec playerctl pause";
+
           "XF86AudioMedia" = "exec playerctl play-pause";
+
           "XF86AudioNext" = "exec playerctl next";
+
           "XF86AudioPrev" = "exec playerctl previous";
 
           "${keys.mod}+${keys.submod}+y" = "input type:touch events toggle enabled disabled";
+
           "${keys.mod}+${keys.submod}+t" = "input type:touchpad events toggle enabled disabled";
         };
+
         input = {
           "type:touch" = {
             events = "disabled";
           };
+
           "type:touchpad" = {
             tap = "enable";
             tap_button_map = "lrm";

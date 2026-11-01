@@ -9,5 +9,6 @@
 
   config = lib.mkIf config.modules.home.discord.enable {
     home.packages = [ pkgs.vesktop ];
+    stylix.targets.vesktop.enable = true;
   };
 }

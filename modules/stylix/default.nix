@@ -11,8 +11,8 @@
     stylix = {
       enable = true;
       polarity = "dark";
-      image = ../../assets/wallpapers/the-architects-dream.jpg;
-      base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark.yaml";
+      image = ../../assets/wallpapers/course_of_empire-destruction.jpg;
+      base16Scheme = "${pkgs.base16-schemes}/share/themes/rose-pine.yaml";
       fonts = {
         serif = {
           name = "Noto Serif";

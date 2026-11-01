@@ -12,8 +12,8 @@ in
 
   config = lib.mkIf config.user.${username}.enable {
     programs = {
-      localsend.enable = true;
       nix-ld.enable = true;
+      localsend.enable = true;
       sway = {
         enable = true;
         extraPackages = [ ];

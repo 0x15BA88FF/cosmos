@@ -48,16 +48,35 @@ in
     #     "noatime"
     #   ];
     # };
+    "/mnt/archive" = {
+      fsType = "ext4";
+      device = "/dev/disk/by-uuid/bba91df9-075d-4255-a68c-3bd32d7d0f51";
+      options = [
+        "noatime"
+        "defaults"
+        "nofail"
+        "x-systemd.automount"
+        "x-systemd.device-timeout=10"
+      ];
+    };
   };
 
-  # swapDevices = [
-  #   {
-  #     device = "/var/lib/swapfile";
-  #     size = 12 * 1024;
-  #   }
-  # ];
+  swapDevices = [
+    # {
+    #   device = "/var/lib/swapfile";
+    #   size = 12 * 1024;
+    # }
+    {
+      device = "/mnt/archive/swapfile";
+      size = 12 * 1024;
+      options = [
+        "defaults"
+        "nofail"
+      ];
+    }
+  ];
 
-  # zramSwap.enable = true;
+  zramSwap.enable = true;
 
   boot = {
     consoleLogLevel = 3;
@@ -66,7 +85,11 @@ in
       "quiet"
       "udev.log_level=3"
       "systemd.show_status=auto"
+      "snd_intel_dspcfg.dsp_driver=1"
     ];
+    extraModprobeConfig = ''
+      options snd_hda_intel power_save=0 power_save_controller=N
+    '';
     loader = {
       efi = {
         canTouchEfiVariables = true;
@@ -100,11 +123,19 @@ in
         };
       };
     };
-    graphics.enable = true;
     opentabletdriver.enable = true;
-    pulseaudio = {
-      enable = false;
-      package = pkgs.pulseaudioFull;
+    graphics = {
+      enable = true;
+      enable32Bit = true;
+      extraPackages = with pkgs; [
+        mesa
+        vulkan-loader
+        intel-media-driver
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        mesa
+        vulkan-loader
+      ];
     };
   };
 
@@ -130,7 +161,10 @@ in
 
   networking = {
     hostName = hostname;
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 40061 ];
+    };
     networkmanager = {
       enable = true;
       wifi.macAddress = "random";
@@ -139,6 +173,8 @@ in
   };
 
   services = {
+    flatpak.enable = true;
+
     automatic-timezoned.enable = true;
     blueman.enable = true;
     dbus.enable = true;
@@ -163,6 +199,7 @@ in
   };
 
   modules = {
+    system.steam.enable = true;
     shared.stylix.enable = true;
     system.kanata.enable = true;
   };
@@ -182,6 +219,8 @@ in
     pkgs.curl
     pkgs.home-manager
   ];
+
+  nixpkgs.config.allowUnfree = true;
 
   nix = {
     gc = {

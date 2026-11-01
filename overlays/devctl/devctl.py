@@ -124,13 +124,13 @@ class Devctl:
     def _find_repositories(
         self, path: Path, max_depth: int, current_depth: int = 0
     ) -> list[Path]:
-        if current_depth >= max_depth or not path.is_dir():
+        if current_depth > max_depth or not path.is_dir():
             return []
 
-        if (path / ".git").is_dir():
-            return [path]
-
         repos: list[Path] = []
+        if (path / ".git").exists():
+            repos.append(path)
+
         try:
             for child in path.iterdir():
                 if child.is_dir() and child.name not in {
